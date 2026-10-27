@@ -1,0 +1,8 @@
+{
+  "evaluation": {
+    "passed": false,
+    "issues": [
+      "The target vehicle is not visible in the final sampled frame."
+    ]
+  }
+}

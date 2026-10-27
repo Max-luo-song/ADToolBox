@@ -1,0 +1,5 @@
+{
+  "scenario_path": "examples/failure_case_filter/scenario.json",
+  "case_id": "synthetic-cut-in",
+  "output_library": "runs/cases.jsonl"
+}

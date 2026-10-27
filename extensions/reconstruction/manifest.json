@@ -1,0 +1,32 @@
+{
+  "upstream": "https://github.com/xiaomi-research/dggt",
+  "revision": "a3276d2bbe4cbb03bcc117830b1836110a27adeb",
+  "files": [
+    {
+      "path": "inference.py",
+      "base_sha256": "c62ec82bfa3daf76862a38728387c2379af271be2674cc4d1f900abbb564ca9d",
+      "patched_sha256": "180cef016b9ba5100d7a333dd9898d247a00887441de46c44c6bf7b721de74c4"
+    },
+    {
+      "path": "datasets/dataset.py",
+      "base_sha256": "6db987c2e6c7e2db6ea040ab25aad83de595677cf206f3f27d00e32f2a2597a3",
+      "patched_sha256": "4f1af1a4b7f04c2a90ee9bdb940548631c3fb403b9975fda704e3bf6d2d4e99d"
+    },
+    {
+      "path": "utils/misc.py",
+      "base_sha256": "97468f2f1bd3551145aaa29cc18ee56e36c4cf7a44ae214839636cc23f19994c",
+      "patched_sha256": "05b423422b05f719f91bcbfe2dbd221773db2af7480dea1a2a616253efc4eb73"
+    },
+    {
+      "path": "utils/interplation.py",
+      "base_sha256": "ca64ffee587e946ab16531f5641fd21197184d86ad24723c228274bc9b801e8a",
+      "patched_sha256": "50e70643659957d54bf6cc33fb3c12efacdd85fcf13705a207d9fbe3b8b0769a"
+    },
+    {
+      "path": "utils/ego_trajectory_offsets.py",
+      "base_sha256": null,
+      "patched_sha256": "ae8dfb349e9fc1ca3447a947ab2be6f2c7ac3ba182988ca399ccc975c9df15fd"
+    }
+  ],
+  "validation": "Patch application and syntax only; GPU execution pending."
+}

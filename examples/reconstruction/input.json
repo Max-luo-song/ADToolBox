@@ -1,0 +1,5 @@
+{
+  "video_path": "/path/to/driving.mp4",
+  "num_frames": 40,
+  "export_render_state": false
+}

@@ -1,0 +1,25 @@
+name: CI
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  portable:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install -e '.[dev,mcp]'
+      - run: ruff check src tests
+      - run: ruff format --check src tests
+      - run: python -m unittest discover -s tests -v
+      - run: python scripts/check_distribution.py
+      - run: python -m build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: distributions-${{ matrix.python-version }}
+          path: dist/*

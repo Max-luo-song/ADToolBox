@@ -1,0 +1,18 @@
+[
+  {
+    "video_path": "/path/to/highway.mp4",
+    "caption": "Daylight highway with clear lanes and a left-side vehicle available for a cut in.",
+    "tags": [
+      "highway",
+      "daylight"
+    ]
+  },
+  {
+    "video_path": "/path/to/urban.mp4",
+    "caption": "Urban intersection at night with pedestrians.",
+    "tags": [
+      "urban",
+      "night"
+    ]
+  }
+]

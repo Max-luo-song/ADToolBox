@@ -1,0 +1,33 @@
+{
+  "llm": {
+    "base_url": "https://your-model-endpoint.example/v1",
+    "model": "your-vision-capable-model",
+    "api_key_env": "TOOLBOX_API_KEY",
+    "timeout": 120,
+    "max_tokens": 2048
+  },
+  "reconstruction": {
+    "root": "/path/to/reconstruction-backend",
+    "python": "/path/to/reconstruction-env/bin/python",
+    "preprocess_python": "/path/to/segmentation-env/bin/python",
+    "checkpoint": "/path/to/reconstruction-weights.pth",
+    "segmentation_model": "/path/to/sky-segmentation-model",
+    "device": "cuda:0",
+    "output_dir": "runs/reconstruction",
+    "timeout": 3600
+  },
+  "scene_editing": {
+    "instance_info_path": "/path/to/instances.json"
+  },
+  "simulation": {
+    "root": "/path/to/simulation-backend",
+    "simulation_python": "/path/to/simulation-env/bin/python",
+    "policy_python": "/path/to/policy-env/bin/python",
+    "timeout": 86400
+  },
+  "training": {
+    "root": "/path/to/simulation-backend",
+    "python": "/path/to/training-env/bin/python",
+    "timeout": 86400
+  }
+}

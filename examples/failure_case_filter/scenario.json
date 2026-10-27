@@ -1,0 +1,53 @@
+{
+  "coordinate_system": "world_xy_meters",
+  "frames": [
+    {
+      "frame_index": 0,
+      "ego": {
+        "position": [
+          0,
+          0
+        ],
+        "length": 4.5,
+        "width": 2,
+        "heading": 0
+      },
+      "actors": [
+        {
+          "id": "lead",
+          "position": [
+            7,
+            3
+          ],
+          "length": 4.5,
+          "width": 2,
+          "heading": -0.2
+        }
+      ]
+    },
+    {
+      "frame_index": 1,
+      "ego": {
+        "position": [
+          2,
+          0
+        ],
+        "length": 4.5,
+        "width": 2,
+        "heading": 0
+      },
+      "actors": [
+        {
+          "id": "lead",
+          "position": [
+            4,
+            0.5
+          ],
+          "length": 4.5,
+          "width": 2,
+          "heading": -0.1
+        }
+      ]
+    }
+  ]
+}

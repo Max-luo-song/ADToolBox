@@ -1,0 +1,9 @@
+{
+  "config_path": "/path/to/policy_config.py",
+  "checkpoint_path": "/path/to/policy.pth",
+  "model_name": "example-policy",
+  "data_type": "example-dataset",
+  "react_type": "R",
+  "max_frame_per_scene": 40,
+  "with_metric_manager": false
+}

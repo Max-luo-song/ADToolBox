@@ -1,0 +1,14 @@
+{
+  "scene_requirement": {
+    "scene_requirement": "A vehicle cuts in ahead on a highway.",
+    "required_conditions": [
+      "daylight",
+      "clear lane markings"
+    ],
+    "required_actors": [
+      "ego",
+      "cut-in vehicle"
+    ],
+    "target_effect": "Test whether the ego policy slows down."
+  }
+}

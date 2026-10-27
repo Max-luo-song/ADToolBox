@@ -1,0 +1,9 @@
+{
+  "config_path": "/path/to/training_config.py",
+  "base_checkpoint": "/path/to/policy.pth",
+  "ann_file": "/path/to/annotations.pkl",
+  "token_file": "/path/to/tokens.txt",
+  "work_dir": "runs/training-new",
+  "epochs": 1,
+  "training_mode": "ilft"
+}

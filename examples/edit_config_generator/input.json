@@ -1,0 +1,28 @@
+{
+  "operations": [
+    {
+      "operation": "trajectory_edit",
+      "instance_id": 0,
+      "waypoints": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ]
+      ],
+      "method": "linear"
+    }
+  ],
+  "instances": [
+    {
+      "instance_id": 0
+    }
+  ],
+  "coordinate_system": "camera_local_meters",
+  "output_path": "runs/edit.json"
+}

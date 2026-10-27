@@ -1,0 +1,7 @@
+{
+  "video_path": "/path/to/driving.mp4",
+  "edit_config_path": "runs/edit.json",
+  "camera_params_path": "/path/to/ply_camera_params.json",
+  "meters_to_scene_units": 0.001,
+  "num_frames": 40
+}

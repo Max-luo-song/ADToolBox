@@ -1,0 +1,13 @@
+{
+  "failure_analysis": {
+    "failure_type": "front_vehicle_cut_in",
+    "failure_reason": "A close cut-in reduced the available reaction distance.",
+    "key_scene_factors": [
+      "highway",
+      "left-to-right cut-in"
+    ],
+    "risk_factors": [
+      "short reaction time"
+    ]
+  }
+}

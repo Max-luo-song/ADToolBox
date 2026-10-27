@@ -1,0 +1,13 @@
+{
+  "failure_case": {
+    "case_id": "example-cut-in",
+    "observations": [
+      "A vehicle enters the ego lane from the left.",
+      "The supplied event label reports a collision."
+    ],
+    "official_metrics": {
+      "no_at_fault_collisions": 0
+    }
+  },
+  "evidence": []
+}

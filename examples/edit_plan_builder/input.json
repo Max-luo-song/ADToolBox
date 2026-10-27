@@ -1,0 +1,13 @@
+{
+  "edit_request": "Move instance 0 left by 1 meter over the clip.",
+  "instances": [
+    {
+      "instance_id": 0,
+      "class": "car"
+    }
+  ],
+  "scene_info": {
+    "coordinate_system": "camera_local_meters",
+    "metric_scale_known": false
+  }
+}

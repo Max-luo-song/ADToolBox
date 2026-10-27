@@ -1,0 +1,7 @@
+{
+  "rendered_video": "/path/to/rendered.mp4",
+  "scene_requirement": {
+    "target_effect": "The selected vehicle moves into the ego lane."
+  },
+  "visual_check": false
+}

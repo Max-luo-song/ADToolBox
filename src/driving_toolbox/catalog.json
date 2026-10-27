@@ -1,0 +1,559 @@
+[
+  {
+    "name": "failure_analyzer",
+    "title": "Failure evidence analysis",
+    "title_zh": "失败证据分析",
+    "runtime": "llm",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "failure_case": {
+          "type": "object"
+        },
+        "token": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "type": "array"
+        },
+        "image_paths": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "description": "Analyze observations and uncertainty without inventing missing evidence."
+  },
+  {
+    "name": "scene_requirement_generator",
+    "title": "Scenario requirements",
+    "title_zh": "场景需求生成",
+    "runtime": "llm",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "failure_analysis": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "failure_analysis"
+      ],
+      "additionalProperties": false
+    },
+    "description": "Translate a failure analysis into grounded scenario requirements."
+  },
+  {
+    "name": "scene_conceiver",
+    "title": "Scenario conception",
+    "title_zh": "场景方案设计",
+    "runtime": "llm",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "scene_requirement": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "scene_requirement"
+      ],
+      "additionalProperties": false
+    },
+    "description": "Design a base-video query and minimal, plausible scenario edits."
+  },
+  {
+    "name": "video_retriever",
+    "title": "Driving video retrieval",
+    "title_zh": "驾驶视频检索",
+    "runtime": "native + optional backend",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "requirement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "catalog_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "top_k": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "export_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "min_score": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "requirement"
+      ],
+      "additionalProperties": false
+    },
+    "description": "Rank captioned local video records; use a configured backend for semantic retrieval."
+  },
+  {
+    "name": "instance_discovery",
+    "title": "Traffic instance tracking",
+    "title_zh": "交通实例跟踪",
+    "runtime": "optional vision / backend",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "video_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "image_dir": {
+          "type": "string",
+          "minLength": 1
+        },
+        "weights": {
+          "type": "string",
+          "minLength": 1
+        },
+        "num_frames": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0
+        },
+        "classes": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minItems": 0
+        },
+        "output_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pixel_space": {
+          "type": "string",
+          "enum": [
+            "source",
+            "reconstruction_input"
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "description": "Detect and track visible traffic participants with an optional tracking backend."
+  },
+  {
+    "name": "reconstruction",
+    "title": "Dynamic scene reconstruction",
+    "title_zh": "动态场景重建",
+    "runtime": "optional backend",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "video_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "num_frames": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "export_render_state": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "video_path"
+      ],
+      "additionalProperties": false
+    },
+    "description": "Reconstruct video into dynamic Gaussian assets and camera parameter artifacts."
+  },
+  {
+    "name": "edit_plan_builder",
+    "title": "Scene edit planning",
+    "title_zh": "场景编辑计划",
+    "runtime": "llm",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "edit_request": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scene_info": {
+          "type": "object"
+        },
+        "instances": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "edit_request"
+      ],
+      "additionalProperties": false
+    },
+    "description": "Ground an edit plan in supplied instances and coordinate information."
+  },
+  {
+    "name": "edit_config_generator",
+    "title": "Edit configuration compiler",
+    "title_zh": "编辑配置编译",
+    "runtime": "native + llm",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "operations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "operation": {
+                "type": "string",
+                "enum": [
+                  "trajectory_edit",
+                  "rotate",
+                  "scale",
+                  "remove",
+                  "add",
+                  "replace"
+                ]
+              },
+              "instance_id": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "waypoints": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 3,
+                  "maxItems": 3
+                },
+                "minItems": 1
+              },
+              "method": {
+                "type": "string",
+                "enum": [
+                  "linear",
+                  "catmull_rom"
+                ]
+              },
+              "rotation": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 3,
+                "maxItems": 3
+              },
+              "scale": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "asset_path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "anchor_pixel": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "minItems": 2,
+                "maxItems": 2
+              }
+            },
+            "required": [
+              "operation"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "edit_plan": {
+          "type": "string",
+          "minLength": 1
+        },
+        "instances": {
+          "type": "array"
+        },
+        "coordinate_system": {
+          "type": "string",
+          "enum": [
+            "camera_local_meters",
+            "backend_world"
+          ]
+        },
+        "output_path": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "description": "Compile typed edits into a portable, validated scene-edit document."
+  },
+  {
+    "name": "scene_editor",
+    "title": "Scene editing and rendering",
+    "title_zh": "场景编辑与渲染",
+    "runtime": "optional backend",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "video_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "edit_config_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "camera_params_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "meters_to_scene_units": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "num_frames": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "ego_trajectory_offsets_path": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "video_path"
+      ],
+      "additionalProperties": false
+    },
+    "description": "Apply instance edits, coordinate conversion and optional camera offsets."
+  },
+  {
+    "name": "scene_validator",
+    "title": "Scene consistency checks",
+    "title_zh": "场景一致性检查",
+    "runtime": "native + optional llm",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "rendered_video": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scene_requirement": {
+          "type": "object"
+        },
+        "scene_ply": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scene_config": {
+          "type": "string",
+          "minLength": 1
+        },
+        "visual_check": {
+          "type": "boolean"
+        },
+        "frame_count": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "rendered_video",
+        "scene_requirement"
+      ],
+      "additionalProperties": false
+    },
+    "description": "Check artifacts and optionally inspect sampled video frames; report unverified physical properties."
+  },
+  {
+    "name": "recovery_advisor",
+    "title": "Execution diagnostics",
+    "title_zh": "执行诊断建议",
+    "runtime": "native",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "evaluation": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "evaluation"
+      ],
+      "additionalProperties": false
+    },
+    "description": "Return diagnostic advice without running retries or dispatching other tools."
+  },
+  {
+    "name": "policy_runner",
+    "title": "Closed-loop policy evaluation",
+    "title_zh": "闭环策略运行",
+    "runtime": "optional backend",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "config_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checkpoint_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "data_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "react_type": {
+          "type": "string",
+          "enum": [
+            "R",
+            "NR"
+          ]
+        },
+        "scenario_data_folder_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "asset_folder_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scenario_pkl_file_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "num_scenarios": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_frame_per_scene": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "with_metric_manager": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "config_path",
+        "checkpoint_path",
+        "model_name",
+        "data_type"
+      ],
+      "additionalProperties": false
+    },
+    "description": "Run an explicitly configured closed-loop policy and collect runner reports."
+  },
+  {
+    "name": "failure_case_filter",
+    "title": "Failure case curation",
+    "title_zh": "失败案例筛选",
+    "runtime": "native",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "scenario_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "case_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "output_library": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "scenario_path"
+      ],
+      "additionalProperties": false
+    },
+    "description": "Screen heading-aware dynamic vehicle box overlaps and optionally append cases to JSONL."
+  },
+  {
+    "name": "policy_trainer",
+    "title": "Supervised policy fine-tuning",
+    "title_zh": "策略监督微调",
+    "runtime": "optional backend",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "config_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "base_checkpoint": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ann_file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "token_file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "work_dir": {
+          "type": "string",
+          "minLength": 1
+        },
+        "epochs": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "training_mode": {
+          "type": "string",
+          "enum": [
+            "ilft"
+          ]
+        }
+      },
+      "required": [
+        "config_path",
+        "base_checkpoint",
+        "ann_file",
+        "token_file",
+        "work_dir"
+      ],
+      "additionalProperties": false
+    },
+    "description": "Launch supervised ILFT with explicit data, configuration and initial weights."
+  }
+]

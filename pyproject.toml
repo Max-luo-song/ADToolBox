@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "driving-toolbox"
+version = "0.1.0"
+description = "Independent tools for driving scenario engineering"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md"]
+authors = [{name = "TOOLBOX contributors"}]
+dependencies = []
+classifiers = ["Development Status :: 3 - Alpha", "Programming Language :: Python :: 3", "Topic :: Scientific/Engineering :: Artificial Intelligence"]
+
+[project.optional-dependencies]
+mcp = ["mcp>=1.12,<2"]
+vision = ["opencv-python>=4.8,<5", "ultralytics>=8.3,<9"]
+dev = ["build>=1.2", "ruff>=0.9", "jsonschema>=4.20"]
+
+[project.scripts]
+tool-box = "driving_toolbox.cli:main"
+tool-box-mcp = "driving_toolbox.mcp_server:main"
+
+[project.urls]
+Repository = "https://github.com/Max-luo-song/tool_box"
+Issues = "https://github.com/Max-luo-song/tool_box/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+driving_toolbox = ["catalog.json"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 110
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B"]

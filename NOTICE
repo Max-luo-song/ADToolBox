@@ -1,0 +1,7 @@
+TOOLBOX - Driving Scenario Engineering
+Copyright 2026 TOOLBOX contributors
+
+Some coordinate conversion and video preprocessing helpers are adapted from
+adagent contributors (2026), licensed under Apache-2.0. Changes include standalone
+configuration, functional naming, input validation and explicit frame metadata.
+No agent orchestration implementation is included.

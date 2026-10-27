@@ -1,0 +1,6 @@
+{
+  "video_path": "/path/to/driving.mp4",
+  "weights": "/path/to/detector.pt",
+  "num_frames": 40,
+  "output_path": "runs/instances.json"
+}
