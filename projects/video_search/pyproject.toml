@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "toolbox-video-search"
+version = "0.1.0"
+description = "Video indexing, multimodal recall, reranking and clip export"
+requires-python = ">=3.10"
+dependencies = ["requests>=2.31", "yt-dlp", "chromadb", "imageio-ffmpeg", "python-dotenv"]
+[project.scripts]
+video-search = "video_search.cli:main"
+[tool.setuptools.packages.find]
+include = ["video_search*"]

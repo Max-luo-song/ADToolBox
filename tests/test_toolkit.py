@@ -13,8 +13,8 @@ from unittest.mock import patch
 
 from driving_toolbox import list_tools, run_tool
 from driving_toolbox.backends.coordinates import local_to_scene_world
-from driving_toolbox.native.curation import overlaps
-from driving_toolbox.native.editing import to_rigid
+from driving_toolbox.tools.edit_config_generator.compiler import to_rigid
+from driving_toolbox.tools.failure_case_filter.evaluator import overlaps
 
 ROOT = Path(__file__).resolve().parents[1]
 

@@ -12,6 +12,8 @@
 
 </div>
 
+> Real-project migration is in progress. Actual source projects are now under `projects/`; see [migration status](MIGRATION_STATUS.md) for what is included and what remains unfinished.
+
 TOOLBOX brings failure evidence, scenario design, video retrieval, dynamic reconstruction, editing and policy evaluation behind a consistent interface. Use one tool from Python, call it from a terminal, or expose it to an MCP client. Each call has explicit inputs and inspectable outputs.
 
 The library includes **14 independent tools**. Heavy compute engines are optional installs; orchestration and next-step selection belong to your own application.

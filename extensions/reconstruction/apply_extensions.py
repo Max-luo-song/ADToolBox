@@ -16,6 +16,9 @@ def main():
     revision = subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip()
     if revision != manifest["revision"]:
         raise SystemExit("Backend revision does not match the patch manifest")
+    if all((root / entry["path"]).is_file() and hashlib.sha256((root / entry["path"]).read_bytes()).hexdigest() == entry["patched_sha256"] for entry in manifest["files"]):
+        print("Extensions already installed")
+        return
     for entry in manifest["files"]:
         path = root / entry["path"]
         digest = hashlib.sha256(path.read_bytes()).hexdigest() if path.exists() else None

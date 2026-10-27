@@ -1,0 +1,5 @@
+{
+  "endpoint": "https://your-model-endpoint.example/v1",
+  "model": "your-vision-model",
+  "api_key": "SET_LOCALLY"
+}

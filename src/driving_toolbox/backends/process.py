@@ -57,7 +57,10 @@ def configured(tool, data, config):
 
 
 def root_settings(config, name, required):
-    settings = config.get(name, {})
+    from ..core.projects import project_settings
+
+    project_name = "simulation" if name == "training" else name
+    settings = {**project_settings(project_name, config), **config.get(name, {})}
     missing = [key for key in required if not settings.get(key)]
     if missing:
         raise DependencyError(f"Configure {name}: {', '.join(missing)}; see docs/backends/README.md")

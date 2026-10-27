@@ -24,6 +24,19 @@
             "type": "string",
             "minLength": 1
           }
+        },
+        "config_path": {
+          "type": "string"
+        },
+        "run_name": {
+          "type": "string"
+        },
+        "resume": {
+          "type": "boolean"
+        },
+        "timeout": {
+          "type": "integer",
+          "minimum": 1
         }
       },
       "required": [],
@@ -96,14 +109,31 @@
         "min_score": {
           "type": "number",
           "minimum": 0
+        },
+        "action": {
+          "type": "string",
+          "enum": [
+            "search",
+            "index",
+            "search_internet"
+          ]
+        },
+        "video_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "library": {
+          "type": "string",
+          "enum": [
+            "default",
+            "waymo"
+          ]
         }
       },
-      "required": [
-        "requirement"
-      ],
+      "required": [],
       "additionalProperties": false
     },
-    "description": "Rank captioned local video records; use a configured backend for semantic retrieval."
+    "description": "Index video clips, perform multimodal semantic recall, rerank candidates and export selected clips."
   },
   {
     "name": "instance_discovery",
@@ -308,6 +338,27 @@
         "output_path": {
           "type": "string",
           "minLength": 1
+        },
+        "instance_info_path": {
+          "type": "string"
+        },
+        "asset_path": {
+          "type": "string"
+        },
+        "asset_scale": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "frame_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "output_kind": {
+          "type": "string",
+          "enum": [
+            "rigid_config",
+            "ego_trajectory_offsets"
+          ]
         }
       },
       "required": [],
@@ -346,6 +397,16 @@
         "ego_trajectory_offsets_path": {
           "type": "string",
           "minLength": 1
+        },
+        "instance_info_path": {
+          "type": "string"
+        },
+        "coordinate_system": {
+          "type": "string",
+          "enum": [
+            "camera_local_meters",
+            "backend_world"
+          ]
         }
       },
       "required": [

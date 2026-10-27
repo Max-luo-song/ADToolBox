@@ -1,0 +1,5 @@
+requests
+yt-dlp
+chromadb
+imageio-ffmpeg
+python-dotenv

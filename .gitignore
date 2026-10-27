@@ -16,3 +16,12 @@ outputs/
 *.pt
 *.pkl
 *.ply
+
+**/.secrets/
+**/.env.local
+configs/runtime.local.json
+projects/**/runtime/
+projects/**/output/
+projects/**/outputs/
+projects/**/input/
+projects/**/data/

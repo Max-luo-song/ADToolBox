@@ -1,0 +1,23 @@
+[project]
+name = "toolbox-scene-editing"
+version = "0.1.0"
+description = "MCP server for 3DGS scene edit config generation"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.0.0,<2",
+    "openai>=1.0.0",
+    "python-dotenv>=1.0.0",
+    "pyyaml>=6.0",
+]
+
+[project.scripts]
+toolbox-scene-editing-mcp = "scene_editing.server:main_sync"
+toolbox-scene-editing-chat = "clients.terminal_chat:main"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["scene_editing*", "clients*"]
