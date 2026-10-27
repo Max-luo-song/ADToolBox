@@ -104,6 +104,4 @@ See [contributing](CONTRIBUTING.md) and [security](SECURITY.md). Useful next ste
 
 ### License and acknowledgments
 
-Built by [Max-luo-song](https://github.com/Max-luo-song) with implementation, documentation and visual contributions from **Codex**, an AI coding assistant. See [contributors](CONTRIBUTORS.md).
-
 Standalone toolkit code is licensed under [Apache-2.0](LICENSE). The bundled engines under `projects/` are derived from Apache-2.0 upstream projects and retain their original licenses and attribution; see [NOTICE](NOTICE), [third-party notices](THIRD_PARTY_NOTICES.md) and the engine guides. Model weights and datasets are not distributed.
