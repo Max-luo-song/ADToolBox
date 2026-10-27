@@ -1,0 +1,6 @@
+Portions of this repository include files derived from VGGT (facebookresearch/vggt).
+Those files are licensed under the terms shown in the upstream VGGT LICENSE (see: https://github.com/facebookresearch/vggt/blob/main/LICENSE.txt).
+Specifically:
+ - The VGGT repository originally provided its materials under Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0).
+ - VGGT maintainers have announced (July 29, 2025) that the repository's code license has been updated to a commercial-use-friendly license; however, the original model checkpoints (e.g. "VGGT-1B") remain non-commercial, while a separate "VGGT-1B-Commercial" checkpoint is available for commercial use under its own terms.
+If you redistribute or use those VGGT files, you must retain the upstream copyright and license notices, and follow the VGGT license terms. See the upstream license for full details: https://github.com/facebookresearch/vggt/blob/main/LICENSE.txt

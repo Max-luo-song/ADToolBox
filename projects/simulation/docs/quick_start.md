@@ -1,0 +1,324 @@
+# Quick Start Guide
+
+This guide will help you run your first SimEngine experiment in minutes. We'll start with a quick test using pre-trained models, then point you to detailed guides for each subsystem.
+
+## Prerequisites
+
+Before starting, ensure you have:
+- ✅ Completed [Installation](installation.md) for both environments
+- ✅ Set up environment variables (`SIMREPO_ROOT`)
+- ✅ Downloaded pre-trained model checkpoint
+- ✅ Prepared scenario data (see [Data Organization](data_organization.md))
+
+---
+
+## Quick Test (5 Minutes)
+
+The fastest way to verify your installation and see SimEngine in action is to run the quick test script.
+
+### What the Quick Test Does
+
+The quick test script:
+1. Loads a pre-trained end-to-end driving model
+2. Runs closed-loop simulation on test scenarios
+3. Evaluates the model's performance with PDM metrics
+4. Saves results to `experiments/closed_loop_exps/`
+
+### Option 1: Single GPU Test
+
+For systems with 1 GPU or for quick testing:
+
+```bash
+cd /path/to/SimEngine
+
+# Set your SimEngine root path
+export SIMREPO_ROOT=$(pwd)
+
+# Run quick test
+bash scripts/closed_loop_test.sh
+```
+
+**Expected output:**
+```
+Starting simulation...
+PolicyEngine client connected
+Processing scenario 1/10...
+Processing scenario 2/10...
+...
+All scenarios completed!
+Results saved to: experiments/closed_loop_exps/e2e_vadv2_50pct/navtest_failures_NR/
+```
+
+**Time:** ~5-10 minutes (depends on GPU and scenario count)
+
+### Option 2: Multi-GPU Test (Recommended)
+
+For systems with 8 GPUs (faster parallel execution):
+
+```bash
+cd /path/to/SimEngine
+export SIMREPO_ROOT=$(pwd)
+
+# Run multi-GPU quick test (8 splits in parallel)
+bash scripts/multigpu_closed_loop_test.sh
+```
+
+**Expected output:**
+```
+Starting distributed simulation with 8 splits...
+SimEngine started with PID: 12345 with ray distributed mode!
+PolicyEngine started with PID: 12346 for split 0
+PolicyEngine started with PID: 12347 for split 1
+...
+All simulation splits completed successfully.
+Merging results...
+Results merged to: experiments/closed_loop_exps/e2e_vadv2_50pct/navtest_failures_NR/
+```
+
+**Time:** ~2-3 minutes with 8 GPUs
+
+**Note:** If you have fewer than 8 GPUs, edit `scripts/multigpu_closed_loop_test.sh` and change the loop `{0..7}` to match your GPU count (e.g., `{0..3}` for 4 GPUs).
+
+---
+
+## Understanding Quick Test Results
+
+After the test completes, check your results:
+
+```bash
+cd experiments/closed_loop_exps/e2e_vadv2_50pct/navtest_failures_NR/
+
+# View aggregated metrics
+cat sim_output/openscene_format/all_scenes_pdm_averages_NR.csv
+```
+
+
+---
+
+## What Happens Under the Hood?
+
+The quick test script calls `scripts/run_testing.sh` (or `run_ray_distributed_testing.sh` for multi-GPU), which:
+
+1. **Launches SimEngine** (in `simengine` conda env)
+   - Loads scenario data from `data/sim_engine/scenarios/`
+   - Loads 3DGS scene assets from `data/sim_engine/assets/`
+   - Starts simulation server
+
+2. **Launches PolicyEngine Client** (in `policyengine` conda env)
+   - Loads pre-trained model checkpoint
+   - Connects to SimEngine via socket
+   - Receives observations, outputs actions
+
+3. **Runs Closed-Loop Simulation**
+   - SimEngine sends camera images + sensor data to PolicyEngine
+   - PolicyEngine predicts trajectory
+   - SimEngine executes trajectory and renders next frame
+   - Repeat for 12 steps per scenario (4 history + 8 simulation steps)
+
+4. **Computes Metrics**
+   - SimEngine evaluates using PDM (Planning Deviation Metric)
+   - Results saved as CSV files
+
+For more details on the testing pipeline, see:
+- **[SimEngine Usage Guide](simengine_usage.md)** - Rollout and testing scripts
+- **[PolicyEngine Usage Guide](policyengine_usage.md)** - Model inference and evaluation
+
+---
+
+## Customizing the Quick Test
+
+### Change Test Scenarios
+
+Edit `scripts/closed_loop_test.sh` to test on different scenarios:
+
+```bash
+# Original (navtest rare cases num: 288)
+bash scripts/run_testing.sh \
+    ... \
+    navtest_failures \
+    NR
+
+# Test on all navtest scenarios
+bash scripts/run_testing.sh \
+    ... \
+    navtest \  # Changed from navtest_failures
+    NR
+```
+
+### Change Model Checkpoint
+
+Edit the checkpoint path in `scripts/closed_loop_test.sh`:
+
+```bash
+bash scripts/run_testing.sh \
+    .../configs/simengine/e2e_vadv2_100pct.py \  # Changed config
+    .../ckpts/e2e_vadv2_100pct_ep20.pth \  # Changed checkpoint
+    e2e_vadv2_100pct \  # Changed experiment name
+    navtest_failures \
+    NR
+```
+
+### Change Reactive Mode
+
+Test with **reactive agents** (other vehicles respond to ego):
+
+```bash
+bash scripts/run_testing.sh \
+    ... \
+    NR  # Change to R for Reactive mode
+```
+
+- `NR` (Non-Reactive): Other agents replay logged trajectories (default)
+- `R` (Reactive): Other agents use IDM policy to react to ego vehicle
+
+---
+
+## Next Steps: Deep Dive into Subsystems
+
+Now that you've verified your installation, dive deeper into each subsystem:
+
+### 🎮 SimEngine - Closed-Loop Simulation
+
+Learn how to:
+- Run simulations on custom scenarios
+- Use different rollout scripts
+- Configure simulation parameters
+- Export simulation data
+- Debug simulation issues
+
+👉 **[SimEngine Usage Guide](simengine_usage.md)**
+
+### 🧠 PolicyEngine - Model Training & Evaluation
+
+Learn how to:
+- Train models from scratch
+- Fine-tune with long tail cases
+- Use different model architectures
+- Configure training hyperparameters
+
+👉 **[PolicyEngine Usage Guide](policyengine_usage.md)**
+
+---
+
+## Complete Pipeline Example
+
+For a complete workflow from data to deployment, follow these steps:
+
+### 1. Prepare Data
+
+```bash
+# Symlink datasets
+cd SimEngine/data
+ln -s /path/to/openscene-v1.1 raw/
+ln -s /path/to/ckpts policy_engine/
+ln -s /path/to/sim_assets sim_engine/assets/
+
+# Set environment variables
+export SIMREPO_ROOT=/path/to/SimEngine
+export NUPLAN_MAPS_ROOT=$SIMREPO_ROOT/data/raw/nuplan/maps
+```
+
+### 2. Train a Model (PolicyEngine)
+
+```bash
+conda activate policyengine
+cd policy
+
+# Train on 50% data
+./scripts/e2e_dist_train.sh configs/simengine/e2e_vadv2_50pct.py 8
+```
+
+See [PolicyEngine Usage Guide](policyengine_usage.md#training) for details.
+
+### 3. Evaluate Open-Loop (PolicyEngine)
+
+```bash
+conda activate policyengine
+cd policy
+
+# Evaluate on navtest. DiffusionDrive/GoalFlow are automatically rescored by
+# the official NAVSIM repo after multi-GPU inference.
+export NAVSIM_DEVKIT_ROOT=/path/to/navsim-v1.1
+export NAVSIM_METRIC_CACHE_PATH=/path/to/metric_cache_navtest_v1
+
+./scripts/e2e_dist_eval.sh \
+    configs/simengine/e2e_vadv2_50pct.py \
+    work_dirs/e2e_vadv2_50pct/epoch_20.pth \
+    8
+```
+
+For selection models, this command finishes after the existing score export.
+For non-selection models, the first CSV contains placeholder PDMS values; the
+final score is written under
+`<checkpoint_dir>/test/<timestamp>_official_pdms/*.csv` by the official NAVSIM
+submission scorer. Inference uses the requested GPUs; official rescoring uses CPU.
+
+Set `NAVSIM_OFFICIAL_RESCORE=never` to export the submission without running the
+official scorer, or run `scripts/e2e_navsim_official_rescore.sh` later.
+
+**Time:** inference is typically ~30 minutes on 8 GPUs; official rescoring adds CPU time.
+
+See [PolicyEngine Usage Guide](policyengine_usage.md#evaluation) for details.
+
+### 4. Extract Rare Cases
+
+```bash
+conda activate policyengine
+cd policy
+
+# Extract failure scenarios
+python scripts/rare_case_sampling_by_pdms.py \
+    --pdm-result work_dirs/e2e_vadv2_50pct/navtest.csv \
+    --base-split configs/navsim_splits/navtest_split/navtest.yaml \
+    --output-dir configs/navsim_splits/navtest_split/rare_cases
+```
+
+See [PolicyEngine Usage Guide](policyengine_usage.md#rare-case-extraction) for details.
+
+### 5. Run Closed-Loop Simulation (SimEngine + PolicyEngine)
+
+```bash
+cd SimEngine
+export SIMREPO_ROOT=$(pwd)
+
+cd engine
+# Run distributed testing
+bash scripts/run_ray_distributed_testing.sh \
+    $SIMREPO_ROOT/policy/configs/simengine/e2e_vadv2_50pct.py \
+    $SIMREPO_ROOT/policy/work_dirs/e2e_vadv2_50pct/epoch_20.pth \
+    e2e_vadv2_50pct \
+    navtrain_ep_per1 \
+    NR
+```
+
+See [SimEngine Usage Guide](simengine_usage.md#distributed-testing) for details.
+
+### 6. Fine-Tune on Rare Cases (PolicyEngine)
+
+```bash
+conda activate policyengine
+cd policy
+
+# Fine-tune with RL on rare cases
+./scripts/e2e_dist_train.sh \
+    configs/simengine/e2e_vadv2_50pct_rlft_rare_log.py \
+    8 \
+    work_dirs/e2e_vadv2_50pct/epoch_20.pth
+```
+
+
+See [PolicyEngine Usage Guide](policyengine_usage.md#fine-tuning) for details.
+
+---
+
+## Summary
+
+You've learned how to:
+- ✅ Run quick tests with pre-trained models
+- ✅ Understand simulation outputs and metrics
+- ✅ Customize test parameters
+- ✅ Navigate to detailed subsystem guides
+
+**Next:** Choose your path:
+- 🎮 **Want to run more simulations?** → [SimEngine Usage Guide](simengine_usage.md)
+- 🧠 **Want to train/posttrain your own models?** → [PolicyEngine Usage Guide](policyengine_usage.md)

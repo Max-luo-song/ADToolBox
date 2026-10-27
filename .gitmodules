@@ -1,6 +1,0 @@
-[submodule "projects/reconstruction"]
-	path = projects/reconstruction
-	url = https://github.com/xiaomi-research/dggt.git
-[submodule "projects/simulation"]
-	path = projects/simulation
-	url = https://github.com/OpenDriveLab/WorldEngine.git
