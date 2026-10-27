@@ -97,4 +97,6 @@ tool-box-mcp --config configs/runtime.local.json
 
 ### 许可与致谢
 
+由 [Max-luo-song](https://github.com/Max-luo-song) 主导，AI 编程助手 **Codex** 参与代码实现、文档与视觉资产制作。参见[贡献者名单](CONTRIBUTORS.md)。
+
 独立工具库代码采用 [Apache-2.0](LICENSE)。可选计算后端及重建扩展补丁保留适用的原始许可和归属，详见 [NOTICE](NOTICE)、[第三方声明](THIRD_PARTY_NOTICES.md)及后端文档。模型权重与数据集不随库发布。

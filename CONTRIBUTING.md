@@ -1,5 +1,7 @@
 # Contributing
 
+See [Contributors / 贡献者](CONTRIBUTORS.md) for project credits.
+
 Keep every tool independently callable. Add schemas, examples and a meaningful test when changing behavior. Do not add framework scheduling, global agent prompts, credentials, private data, backend environments or checkpoints.
 
 ```bash
