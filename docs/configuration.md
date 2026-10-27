@@ -9,9 +9,9 @@ python -m pip install -e '.[vision]' # optional local detector/tracker
 cp configs/runtime.example.json configs/runtime.local.json
 ```
 
-Only configure the sections used by your chosen tool. Each backend can live in a different Python environment. `tool-box doctor --config configs/runtime.local.json` checks availability, not model correctness.
+Only configure the sections used by your chosen tool. Each backend can live in a different Python environment. `adtoolbox doctor --config configs/runtime.local.json` checks availability, not model correctness.
 
-For model-backed tools, export `TOOLBOX_API_KEY`, `TOOLBOX_BASE_URL` and `TOOLBOX_MODEL`. Alternatively put `base_url` and `model` in the `llm` section and select a credential variable with `api_key_env`. The CLI does not automatically load `.env`; export variables in your shell. API keys are never accepted in tool inputs or committed configuration. Text evidence and explicitly attached images are transmitted to the endpoint you configure.
+For model-backed tools, export `ADTOOLBOX_API_KEY`, `ADTOOLBOX_BASE_URL` and `ADTOOLBOX_MODEL`. Alternatively put `base_url` and `model` in the `llm` section and select a credential variable with `api_key_env`. The CLI does not automatically load `.env`; export variables in your shell. API keys are never accepted in tool inputs or committed configuration. Text evidence and explicitly attached images are transmitted to the endpoint you configure.
 
 ## External JSON backend
 

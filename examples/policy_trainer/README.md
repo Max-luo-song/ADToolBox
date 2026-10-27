@@ -3,7 +3,7 @@
 From the repository root:
 
 ```bash
-tool-box run policy_trainer --input examples/policy_trainer/input.json
+adtoolbox run policy_trainer --input examples/policy_trainer/input.json
 ```
 
 Replace `/path/to/…` entries with real local inputs. LLM and optional-backend tools also need `--config configs/runtime.local.json` and the relevant environment variables. Examples containing external paths are configuration templates, not completed runs.

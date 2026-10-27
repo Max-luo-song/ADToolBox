@@ -3,7 +3,6 @@ recursive-include docs *.md
 recursive-include configs *.json
 recursive-include examples *.json *.md *.py
 recursive-include assets *.svg *.png *.gif
-recursive-include extensions *.md *.json *.patch *.py
 recursive-include licenses *
 recursive-include tests *.py
 recursive-include scripts *.py

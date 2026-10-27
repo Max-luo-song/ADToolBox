@@ -5,16 +5,16 @@ Install `python -m pip install -e '.[mcp]'`, then configure an MCP client:
 ```json
 {
   "mcpServers": {
-    "toolbox": {
-      "command": "/path/to/venv/bin/tool-box-mcp",
+    "adtoolbox": {
+      "command": "/path/to/venv/bin/adtoolbox-mcp",
       "args": ["--config", "/path/to/runtime.local.json"],
-      "env": {"TOOLBOX_API_KEY": "set-this-locally"}
+      "env": {"ADTOOLBOX_API_KEY": "set-this-locally"}
     }
   }
 }
 ```
 
-The server exposes all 14 tools over stdio using the official MCP Python SDK. Each tool exposes its exact input JSON Schema in MCP metadata and `tool-box schema NAME`. Pass tool arguments directly. Invalid tool input becomes an MCP tool error.
+The server exposes all 14 tools over stdio using the official MCP Python SDK. Each tool exposes its exact input JSON Schema in MCP metadata and `adtoolbox schema NAME`. Pass tool arguments directly. Invalid tool input becomes an MCP tool error.
 
 The server only exposes explicit calls. It does not select tools, run a workflow or maintain agent history. Use absolute input paths when your client starts the server from another working directory. Tools may write artifacts and model-backed tools may transmit supplied data to your configured endpoint.
 

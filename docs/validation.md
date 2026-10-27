@@ -4,12 +4,12 @@ This is an alpha standalone distribution. Interface support and reproduced compu
 
 | Area | Evidence | Status |
 |---|---|---|
-| Portable package | Python 3.12/macOS and Python 3.10/Linux; 20 unittest cases on each covering 14 schemas and independent entries | Passed |
+| Portable package | Python 3.13/macOS and Python 3.10/Linux; 21 unittest cases covering 14 schemas, independent entries and the scene-conversion staging helper | Passed |
 | Native tools | Actual CLI edit compilation, synthetic overlap filtering with JSONL persistence, advisory diagnostics | Passed |
 | MCP | Actual stdio initialize, list all 14 tools, successful invocation and explicit tool error | Passed |
 | Model transport | Request construction, credential separation and output-schema validation using controlled response fixtures | Passed; no live model-quality measurement |
 | Optional backend process contracts | Separate fixture simulation/policy executables, fresh-report checks, fixture training checkpoint, failure/timeout paths | Passed; fixtures do not execute real models |
-| Reconstruction extension | Exact upstream revision and per-file hashes in manifest; patch application and Python 3.12 syntax | Passed |
+| Bundled engines | Reconstruction and simulation engine source vendored with extensions applied; Python syntax compile check over both trees; `scripts/setup_project.py` completeness check | Passed |
 | Default imports | Tool listing does not load PyTorch, OpenCV or detector packages | Passed |
 | GPU reconstruction / editing | Requires clean engine installation, weights, input provenance and measured artifacts | Not reproduced |
 | Closed-loop metrics | Requires compatible scenes, policy weights and metric/map annotations | Not reproduced |

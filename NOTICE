@@ -1,7 +1,25 @@
-TOOLBOX - Driving Scenario Engineering
-Copyright 2026 TOOLBOX contributors
+ADToolbox - Driving Scenario Engineering
+Copyright 2026 the ADToolbox authors
+
+This repository bundles third-party engine source under `projects/`. Those
+components retain their original licenses and copyright:
+
+- `projects/reconstruction` is derived from an Apache-2.0 dynamic Gaussian
+  reconstruction project (Copyright 2025 Xiaomi Corporation and Tsinghua
+  University). Its original LICENSE and NOTICE are kept in
+  `licenses/reconstruction/`. The upstream NOTICE describes material derived
+  from VGGT (facebookresearch/vggt) and separate checkpoint terms; review them
+  before use or redistribution.
+- `projects/simulation` is derived from an Apache-2.0 closed-loop simulation
+  and policy training framework (Copyright OpenDriveLab contributors). Its
+  license is kept in `licenses/simulation/` and at `projects/simulation/LICENSE`.
+- `projects/reconstruction/third_party/TAPIP3D` and
+  `projects/reconstruction/third_party/cotracker` bundle tracking utilities
+  from their respective upstream projects. cotracker derives from
+  co-tracker (facebookresearch), whose upstream terms are non-commercial
+  (CC-BY-NC); review them before any commercial use.
 
 Some coordinate conversion and video preprocessing helpers are adapted from
-adagent contributors (2026), licensed under Apache-2.0. Changes include standalone
-configuration, functional naming, input validation and explicit frame metadata.
-No agent orchestration implementation is included.
+the authors' earlier internal work (2026), licensed under Apache-2.0. Changes
+include standalone configuration, functional naming, input validation and
+explicit frame metadata. No agent orchestration implementation is included.

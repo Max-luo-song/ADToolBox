@@ -1,7 +1,7 @@
 """Reference caption-retrieval bridge: one input JSON, one output JSON."""
 import json
 import sys
-from driving_toolbox.tools.video_retriever.caption_search import search
+from adtoolbox.tools.video_retriever.caption_search import search
 
 try:
     result = search(json.load(sys.stdin))
