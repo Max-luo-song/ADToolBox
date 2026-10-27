@@ -14,7 +14,7 @@ def project_settings(name, config):
     projects = (
         Path(
             config.get("projects_root")
-            or os.environ.get("TOOLBOX_PROJECTS_DIR")
+            or os.environ.get("ADTOOLBOX_PROJECTS_DIR")
             or Path(__file__).resolve().parents[3] / "projects"
         )
         .expanduser()

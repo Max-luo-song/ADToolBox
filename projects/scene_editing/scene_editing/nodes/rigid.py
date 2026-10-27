@@ -170,7 +170,7 @@ class RigidNodeBuilder(NodeBuilder):
                 context="add",
             )
             if len(add_params["add_obj"]) != 1:
-                raise ValueError("DGGT add 只支持一个资产")
+                raise ValueError("重建引擎 add 只支持一个资产")
             pixel = add_params["anchor_pixel"][0]
             if not (
                 isinstance(pixel, list)
@@ -205,7 +205,7 @@ class RigidNodeBuilder(NodeBuilder):
                 context="replace",
             )
             if len(replace_params["target_id"]) != 1:
-                raise ValueError("DGGT replace 只支持一个实例和一个资产")
+                raise ValueError("重建引擎 replace 只支持一个实例和一个资产")
             scale = replace_params["scale"][0]
             if isinstance(scale, bool) or not isinstance(scale, (int, float)) or scale <= 0:
                 raise ValueError("replace.scale 必须包含一个正数")

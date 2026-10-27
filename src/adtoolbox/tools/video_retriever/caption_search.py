@@ -27,9 +27,7 @@ def search(data):
         if not path.is_absolute():
             path = catalog_path.parent / path
         path = file_path(str(path), "video_path")
-        docs.append(
-            (record, path, Counter(_tokens(record["caption"] + " " + " ".join(record.get("tags", [])))))
-        )
+        docs.append((record, path, Counter(_tokens(record["caption"] + " " + " ".join(record.get("tags", []))))))
     avg_len = sum(sum(tokens.values()) for _, _, tokens in docs) / len(docs) or 1
     ranked = []
     for record, path, tokens in docs:
@@ -56,7 +54,5 @@ def search(data):
         "video_path": selected,
         "candidates": ranked,
         "method": "caption_bm25",
-        "_warnings": [
-            "Caption retrieval is lexical; visual-semantic retrieval requires an optional backend."
-        ],
+        "_warnings": ["Caption retrieval is lexical; visual-semantic retrieval requires an optional backend."],
     }

@@ -9,9 +9,9 @@ def diagnose(config):
         "core": "ready",
         "llm": all(
             os.environ.get(key) or config.get("llm", {}).get(field)
-            for key, field in [("TOOLBOX_BASE_URL", "base_url"), ("TOOLBOX_MODEL", "model")]
+            for key, field in [("ADTOOLBOX_BASE_URL", "base_url"), ("ADTOOLBOX_MODEL", "model")]
         )
-        and bool(os.environ.get(config.get("llm", {}).get("api_key_env", "TOOLBOX_API_KEY"))),
+        and bool(os.environ.get(config.get("llm", {}).get("api_key_env", "ADTOOLBOX_API_KEY"))),
     }
     for module in ("mcp", "cv2", "ultralytics"):
         checks[module] = importlib.util.find_spec(module) is not None

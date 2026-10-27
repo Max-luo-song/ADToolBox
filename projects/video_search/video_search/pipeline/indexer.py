@@ -1,4 +1,4 @@
-"""Stage 7: index scene clips with the vendored Qwen SentrySearch runtime."""
+"""Stage 7: index scene clips with the vendored Qwen VectorSearch runtime."""
 
 from __future__ import annotations
 
@@ -7,9 +7,9 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 
-from ..vendor.sentrysearch.chunker import _get_video_duration, chunk_video, expected_chunk_spans, preprocess_chunk
-from ..vendor.sentrysearch.embedder import get_embedder, reset_embedder
-from ..vendor.sentrysearch.store import SentryStore
+from ..vendor.vecsearch.chunker import _get_video_duration, chunk_video, expected_chunk_spans, preprocess_chunk
+from ..vendor.vecsearch.embedder import get_embedder, reset_embedder
+from ..vendor.vecsearch.store import VectorStore
 
 
 @dataclass
@@ -24,9 +24,9 @@ def elapsed(start: float) -> float:
     return round(time.perf_counter() - start, 3)
 
 
-def _store(config: IndexConfig) -> SentryStore:
-    db_path = config.runtime_home / ".sentrysearch" / "db"
-    return SentryStore(db_path=db_path, backend="qwen_api")
+def _store(config: IndexConfig) -> VectorStore:
+    db_path = config.runtime_home / ".vecsearch" / "db"
+    return VectorStore(db_path=db_path, backend="qwen_api")
 
 
 def is_fully_indexed(video: Path, config: IndexConfig) -> bool:

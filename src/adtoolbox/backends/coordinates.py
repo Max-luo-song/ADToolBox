@@ -1,4 +1,4 @@
-# Adapted from adagent contributors, 2026. Modified for functional naming. Apache-2.0.
+# Adapted from the ADToolbox authors, 2026. Modified for functional naming. Apache-2.0.
 """Coordinate conversion from Camera-local local axes to scene backend world axes."""
 
 from __future__ import annotations
@@ -37,8 +37,7 @@ def local_to_scene_world(
         raise ValueError("world_to_camera_opencv must be a 4x4 matrix")
     camera_vector = local_to_scene_camera(vector)
     world_vector = [
-        sum(float(world_to_camera[row][axis]) * camera_vector[row] for row in range(3))
-        * float(meters_to_scene_units)
+        sum(float(world_to_camera[row][axis]) * camera_vector[row] for row in range(3)) * float(meters_to_scene_units)
         for axis in range(3)
     ]
     # scene backend normalized scenes use world Y as the vertical axis. Camera-local

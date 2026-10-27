@@ -3,7 +3,7 @@ from importlib.resources import files
 
 
 def list_tools():
-    return json.loads(files("driving_toolbox").joinpath("catalog.json").read_text(encoding="utf-8"))
+    return json.loads(files("adtoolbox").joinpath("catalog.json").read_text(encoding="utf-8"))
 
 
 def get_tool(name):

@@ -6,14 +6,14 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from driving_toolbox import run_tool
+from adtoolbox import run_tool
 
 
 class BackendContractTests(unittest.TestCase):
     def test_separate_simulation_and_policy_processes_produce_fresh_report(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            sim = root / "projects/SimEngine/worldengine/runner/run_simulation.py"
+            sim = root / "engine/simengine/runner/run_simulation.py"
             sim.parent.mkdir(parents=True)
             sim.write_text(
                 "import json,sys\nfrom pathlib import Path\n"
@@ -21,7 +21,7 @@ class BackendContractTests(unittest.TestCase):
                 "path=Path(args['output_dir'])/'runner_report_fixture.json'\n"
                 "path.write_text(json.dumps([{'succeeded':True,'parameters':args}]))\n"
             )
-            policy = root / "projects/AlgEngine/closed_loop/sim_test.py"
+            policy = root / "policy/closed_loop/sim_test.py"
             policy.parent.mkdir(parents=True)
             policy.write_text("print('fixture policy client')\n")
             config_path, checkpoint = root / "policy.py", root / "policy.pth"
@@ -80,7 +80,7 @@ class BackendContractTests(unittest.TestCase):
     def test_training_requires_new_checkpoint_and_empty_work_directory(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            script = root / "projects/AlgEngine/scripts/train.py"
+            script = root / "policy/scripts/train.py"
             script.parent.mkdir(parents=True)
             script.write_text(
                 "import sys\nfrom pathlib import Path\n"

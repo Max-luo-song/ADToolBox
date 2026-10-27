@@ -10,9 +10,7 @@ def track(data):
         import cv2
         from ultralytics import YOLO
     except ImportError:
-        raise DependencyError(
-            "Install driving-toolbox[vision] or configure an instance_discovery backend"
-        ) from None
+        raise DependencyError("Install adtoolbox[vision] or configure an instance_discovery backend") from None
     if not data.get("weights"):
         raise InputError("Provide weights explicitly; model weights are not downloaded automatically")
     weights = file_path(data["weights"], "weights")
@@ -33,9 +31,7 @@ def track(data):
                 yield frame
     elif data.get("image_dir"):
         paths = sorted(
-            p
-            for p in Path(data["image_dir"]).expanduser().glob("*")
-            if p.suffix.lower() in {".jpg", ".jpeg", ".png"}
+            p for p in Path(data["image_dir"]).expanduser().glob("*") if p.suffix.lower() in {".jpg", ".jpeg", ".png"}
         )
         source_fps = None
 

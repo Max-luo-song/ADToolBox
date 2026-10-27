@@ -27,9 +27,9 @@ async def run(payload: dict[str, Any]) -> dict[str, Any]:
     from mcp import ClientSession
     from mcp.client.stdio import StdioServerParameters, stdio_client
     from openai import AsyncOpenAI
-    # Default to the vendored scene_editing core; TOOLBOX_EDITING_ROOT overrides.
+    # Default to the vendored scene_editing core; ADTOOLBOX_EDITING_ROOT overrides.
     _default = Path(__file__).resolve().parent
-    root = Path(os.environ.get("TOOLBOX_EDITING_ROOT", str(_default))).resolve()
+    root = Path(os.environ.get("ADTOOLBOX_EDITING_ROOT", str(_default))).resolve()
     load_dotenv(root / ".env.local", override=False)
     output_path = str(Path(payload["output_path"]).resolve())
     env = os.environ.copy()

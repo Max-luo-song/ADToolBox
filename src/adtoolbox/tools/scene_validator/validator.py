@@ -28,12 +28,10 @@ def check(data, config):
         if not ffmpeg or not ffprobe:
             raise DependencyError("Visual checks need ffmpeg and ffprobe on PATH")
         duration = float(
-            invoke(
-                [ffprobe, "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(video)]
-            ).stdout
+            invoke([ffprobe, "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(video)]).stdout
         )
         count = min(data.get("frame_count", 8), 32)
-        with tempfile.TemporaryDirectory(prefix="toolbox-frames-") as temporary:
+        with tempfile.TemporaryDirectory(prefix="adtoolbox-frames-") as temporary:
             images = []
             for i in range(count):
                 output = Path(temporary) / f"{i:03d}.jpg"
@@ -74,9 +72,7 @@ def check(data, config):
                 images,
             )
             issues.extend(str(x) for x in visual["issues"])
-    passed = (
-        not issues and visual is not None and visual["requirement_consistency"] and visual["visual_valid"]
-    )
+    passed = not issues and visual is not None and visual["requirement_consistency"] and visual["visual_valid"]
     return {
         "passed": bool(passed),
         "artifacts_valid": artifacts_valid,

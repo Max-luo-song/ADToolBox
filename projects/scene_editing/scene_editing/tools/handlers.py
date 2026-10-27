@@ -224,7 +224,7 @@ def _make_replace_rigid_instance(
             }
         except (KeyError, TypeError, ValueError) as exc:
             return [_text(f"参数错误: {exc}")]
-        return [_result("已设置 DGGT 刚体实例替换。", draft)]
+        return [_result("已设置 重建引擎 刚体实例替换。", draft)]
 
     return handler
 
@@ -259,7 +259,7 @@ def _make_add_rigid_asset(
             }
         except (KeyError, TypeError, ValueError) as exc:
             return [_text(f"参数错误: {exc}")]
-        return [_result("已设置 DGGT 刚体资产插入。", draft)]
+        return [_result("已设置 重建引擎 刚体资产插入。", draft)]
 
     return handler
 
@@ -384,14 +384,14 @@ def _make_save_config(
         _ensure_draft(draft)
         rigid = draft.get("Nodes", {}).get("RigidNodes")
         if set(draft.get("Nodes", {})) != {"RigidNodes"} or not isinstance(rigid, dict) or not rigid:
-            return [_text("参数错误: DGGT 配置必须包含 RigidNodes 编辑操作")]
+            return [_text("参数错误: 重建引擎 配置必须包含 RigidNodes 编辑操作")]
         if set(rigid) - {"trajectory_edit", "rotate", "scale", "remove", "add", "replace"}:
-            return [_text("参数错误: 包含 DGGT 不支持的刚体编辑操作")]
+            return [_text("参数错误: 包含 重建引擎 不支持的刚体编辑操作")]
         if any(name in rigid for name in ("trajectory_edit", "rotate", "scale", "remove", "replace")) and not draft.get("instance_info_path"):
             return [_text("参数错误: 编辑已有实例必须提供 instance_info_path")]
         output_path = args.get("output_path")
         if not isinstance(output_path, str) or not output_path.endswith(".json"):
-            return [_text("参数错误: DGGT output_path 必须是 .json 文件")]
+            return [_text("参数错误: 重建引擎 output_path 必须是 .json 文件")]
         path = Path(output_path)
         if not path.is_absolute():
             path = Path(output_dir) / path

@@ -7,7 +7,7 @@ from pathlib import Path
 import os
 
 
-COMPONENT_ROOT = Path(os.environ.get("TOOLBOX_VIDEO_SEARCH_HOME", str(Path.cwd() / "runs/video_search"))).expanduser().resolve()
+COMPONENT_ROOT = Path(os.environ.get("ADTOOLBOX_VIDEO_SEARCH_HOME", str(Path.cwd() / "runs/video_search"))).expanduser().resolve()
 LIBRARIES = ("default", "waymo")
 
 
@@ -40,7 +40,7 @@ class SearchConfig:
     # OSS rerank staging settings (non-sensitive; credentials stay in .env).
     oss_bucket: str = ""
     oss_endpoint: str = ""
-    oss_prefix: str = "toolbox-rerank/"
+    oss_prefix: str = "adtoolbox-rerank/"
 
     @classmethod
     def for_library(cls, library: str) -> SearchConfig:

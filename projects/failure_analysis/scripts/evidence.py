@@ -103,7 +103,7 @@ class Evidence:
             source=cached/'numeric_evidence.json'
         else:
             from numeric import numeric
-            numeric(Path(self.cfg['worldengine_root']),self.root,self.frames,self.row['token'],self.out)
+            numeric(Path(self.cfg['simulation_root']),self.root,self.frames,self.row['token'],self.out)
             source=self.out/'numeric_evidence.json'
         self.data=json.loads(source.read_text())
         self.numeric_source={'file':str(source),'sha256':sha(source),'reused':bool(valid),

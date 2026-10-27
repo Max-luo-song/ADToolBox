@@ -86,7 +86,7 @@
     "name": "video_retriever",
     "title": "Driving video retrieval",
     "title_zh": "驾驶视频检索",
-    "runtime": "native + optional backend",
+    "runtime": "native + engine",
     "input_schema": {
       "type": "object",
       "properties": {
@@ -139,7 +139,7 @@
     "name": "instance_discovery",
     "title": "Traffic instance tracking",
     "title_zh": "交通实例跟踪",
-    "runtime": "optional vision / backend",
+    "runtime": "optional vision / engine",
     "input_schema": {
       "type": "object",
       "properties": {
@@ -192,7 +192,7 @@
     "name": "reconstruction",
     "title": "Dynamic scene reconstruction",
     "title_zh": "动态场景重建",
-    "runtime": "optional backend",
+    "runtime": "bundled engine",
     "input_schema": {
       "type": "object",
       "properties": {
@@ -370,7 +370,7 @@
     "name": "scene_editor",
     "title": "Scene editing and rendering",
     "title_zh": "场景编辑与渲染",
-    "runtime": "optional backend",
+    "runtime": "bundled engine",
     "input_schema": {
       "type": "object",
       "properties": {
@@ -478,7 +478,7 @@
     "name": "policy_runner",
     "title": "Closed-loop policy evaluation",
     "title_zh": "闭环策略运行",
-    "runtime": "optional backend",
+    "runtime": "bundled engine",
     "input_schema": {
       "type": "object",
       "properties": {
@@ -571,7 +571,7 @@
     "name": "policy_trainer",
     "title": "Supervised policy fine-tuning",
     "title_zh": "策略监督微调",
-    "runtime": "optional backend",
+    "runtime": "bundled engine",
     "input_schema": {
       "type": "object",
       "properties": {

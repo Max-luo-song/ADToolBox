@@ -14,8 +14,8 @@ def create_server(config=None):
         from mcp import types
         from mcp.server.lowlevel import Server
     except ImportError:
-        raise SystemExit("Install driving-toolbox[mcp] to start the MCP server") from None
-    server = Server("TOOLBOX")
+        raise SystemExit("Install adtoolbox[mcp] to start the MCP server") from None
+    server = Server("ADToolbox")
     read_only = {
         "failure_analyzer",
         "scene_requirement_generator",

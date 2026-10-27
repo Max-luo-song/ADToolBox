@@ -27,9 +27,7 @@ def _run(data, config, edit_config=None):
     text = inference.read_text(encoding="utf-8")
     missing = [flag for flag in requested_features if flag not in text]
     if missing:
-        raise DependencyError(
-            "Backend lacks required extensions: " + ", ".join(missing) + "; see extensions/README.md"
-        )
+        raise DependencyError("Backend lacks required extensions: " + ", ".join(missing) + "; see extensions/README.md")
     run = Path(settings.get("output_dir", "runs/reconstruction")).expanduser().resolve() / datetime.now(
         timezone.utc
     ).strftime("%Y%m%dT%H%M%S%fZ")
@@ -142,16 +140,11 @@ def edit(data, config):
             {"operations": portable.get("operations"), "coordinate_system": portable.get("coordinate_system")}
         )
         rigid = to_rigid(portable)
-    if (
-        portable["coordinate_system"] == "camera_local_meters"
-        and "trajectory_edit" in rigid["Nodes"]["RigidNodes"]
-    ):
+    if portable["coordinate_system"] == "camera_local_meters" and "trajectory_edit" in rigid["Nodes"]["RigidNodes"]:
         from ...backends.coordinates import convert_edit_config
 
         if not data.get("camera_params_path") or not data.get("meters_to_scene_units"):
-            raise InputError(
-                "Camera-local trajectory editing requires camera_params_path and meters_to_scene_units"
-            )
+            raise InputError("Camera-local trajectory editing requires camera_params_path and meters_to_scene_units")
         rigid, _ = convert_edit_config(rigid, data["camera_params_path"], data["meters_to_scene_units"])
     # The renderer needs the same detector boxes that defined instance IDs.
     instance_info = (
@@ -168,12 +161,10 @@ def edit(data, config):
             raise InputError("Renderer edits require instances tracked with pixel_space=reconstruction_input")
         available = {item["instance_id"] for item in discovered.get("instances", [])}
         if "Nodes" not in read_json(source) and any(
-            op.get("instance_id") not in available
-            for op in portable["operations"]
-            if op["operation"] != "add"
+            op.get("instance_id") not in available for op in portable["operations"] if op["operation"] != "add"
         ):
             raise InputError("Edit references an instance absent from the discovery result")
-    with tempfile.TemporaryDirectory(prefix="toolbox-edit-") as directory:
+    with tempfile.TemporaryDirectory(prefix="adtoolbox-edit-") as directory:
         path = write_json(Path(directory) / "edit.json", rigid)
         result = _run(data, config, path)
     result["scene_config"] = str(source)

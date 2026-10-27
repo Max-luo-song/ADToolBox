@@ -34,7 +34,7 @@ def map_union(we,frames):
 def numeric(we,root,frames,token,out):
     # These are the same Pacifica rear-axle dimensions used by MetricManager.
     sys.path.insert(0,str(we/'projects/SimEngine'))
-    from worldengine.components.agents.vehicle_model.pacifica_vehicle import get_pacifica_parameters
+    from simengine.components.agents.vehicle_model.pacifica_vehicle import get_pacifica_parameters
     params=get_pacifica_parameters();shift=(params.front_length-params.rear_length)/2
     poses=[]
     for f in frames:

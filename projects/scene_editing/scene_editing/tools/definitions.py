@@ -127,14 +127,14 @@ def _start_config_tool() -> Tool:
         name="start_config",
         description=(
             "开始一份新的编辑配置草稿。会清空当前草稿并创建标准结构。"
-            "编辑 DGGT 已有实例时,传入逐帧 bbox 实例清单的 instance_info_path 并写入配置顶层。"
+            "编辑 重建引擎 已有实例时,传入逐帧 bbox 实例清单的 instance_info_path 并写入配置顶层。"
         ),
         inputSchema={
             "type": "object",
             "properties": {
                 "instance_info_path": {
                     "type": "string",
-                    "description": "DGGT instance_info.json 路径",
+                    "description": "重建引擎 instance_info.json 路径",
                 },
             },
         },
@@ -287,7 +287,7 @@ def _scale_rigid_instance_tool() -> Tool:
 def _replace_rigid_instance_tool(catalog: str) -> Tool:
     return Tool(
         name="replace_rigid_instance",
-        description=f"""设置当前草稿中唯一的 DGGT Mode2 刚体实例替换。
+        description=f"""设置当前草稿中唯一的 重建引擎 Mode2 刚体实例替换。
 
 替换位置来自 instance_info_path 中该实例的逐帧 bbox。
 scale 是替换资产 Gaussian 的统一缩放倍数。再次调用会覆盖前一次替换。
@@ -321,9 +321,9 @@ scale 是替换资产 Gaussian 的统一缩放倍数。再次调用会覆盖前�
 def _add_rigid_asset_tool(catalog: str) -> Tool:
     return Tool(
         name="add_rigid_asset",
-        description=f"""设置当前草稿中唯一的 DGGT Mode2 车辆 Gaussian PLY 插入。
+        description=f"""设置当前草稿中唯一的 重建引擎 Mode2 车辆 Gaussian PLY 插入。
 
-anchor_pixel 是 DGGT 处理后第一帧图像中的 [x, y] 道路落点。
+anchor_pixel 是 重建引擎 处理后第一帧图像中的 [x, y] 道路落点。
 scale 是资产 Gaussian 的统一缩放倍数。再次调用会覆盖前一次插入。
 
 当前可用资产:
@@ -341,7 +341,7 @@ scale 是资产 Gaussian 的统一缩放倍数。再次调用会覆盖前一次�
                     "items": {"type": "integer", "minimum": 0},
                     "minItems": 2,
                     "maxItems": 2,
-                    "description": "DGGT 处理后第一帧图像中的道路落点 [x, y]",
+                    "description": "重建引擎 处理后第一帧图像中的道路落点 [x, y]",
                 },
                 "scale": {
                     "type": "number",
@@ -382,9 +382,9 @@ def _remove_added_rigid_asset_tool() -> Tool:
     return Tool(
         name="remove_added_rigid_asset",
         description=(
-            "从当前草稿的 Nodes.RigidNodes.add 中撤销 DGGT 车辆插入,同步移除 anchor_pixel 和 scale。"
+            "从当前草稿的 Nodes.RigidNodes.add 中撤销 重建引擎 车辆插入,同步移除 anchor_pixel 和 scale。"
             "先调用 preview_config 查看 add_obj 顺序,index 从 0 开始,不是场景 instance_id。"
-            "当前 DGGT 插入只有一项,index 固定为 0。"
+            "当前 重建引擎 插入只有一项,index 固定为 0。"
             "只修改当前草稿,保留磁盘资产文件;需要调用 save_config 保存结果。"
             "原场景已有对象请使用 remove_rigid_instance。"
         ),
@@ -448,13 +448,13 @@ def _preview_config_tool() -> Tool:
 def _save_config_tool(output_dir: str) -> Tool:
     return Tool(
         name="save_config",
-        description=f"保存 DGGT RigidNodes 配置为 JSON。相对路径基于 OUTPUT_DIR ({output_dir})。",
+        description=f"保存 重建引擎 RigidNodes 配置为 JSON。相对路径基于 OUTPUT_DIR ({output_dir})。",
         inputSchema={
             "type": "object",
             "properties": {
                 "output_path": {
                     "type": "string",
-                    "description": "DGGT JSON 输出文件路径",
+                    "description": "重建引擎 JSON 输出文件路径",
                 },
             },
             "required": ["output_path"],
@@ -466,8 +466,8 @@ def _set_ego_trajectory_offsets_tool() -> Tool:
     return Tool(
         name="set_ego_trajectory_offsets",
         description=(
-            "设置 DGGT Mode 2 自车渲染轨迹相对偏移。每项是相对于原相机轨迹"
-            "局部坐标的 [前, 左, 上] 偏移，使用 DGGT 原生单位，不要换算米。"
+            "设置 重建引擎 Mode 2 自车渲染轨迹相对偏移。每项是相对于原相机轨迹"
+            "局部坐标的 [前, 左, 上] 偏移，使用 重建引擎 原生单位，不要换算米。"
             "传一个向量作用于所有帧，传多个向量则按帧使用。"
         ),
         inputSchema={
@@ -502,7 +502,7 @@ def _save_ego_trajectory_offsets_tool(output_dir: str) -> Tool:
 def _reset_config_tool() -> Tool:
     return Tool(
         name="reset_config",
-        description="清空当前 DGGT 配置草稿。",
+        description="清空当前 重建引擎 配置草稿。",
         inputSchema={"type": "object", "properties": {}},
     )
 
@@ -539,7 +539,7 @@ def _list_instances_tool() -> Tool:
     return Tool(
         name="list_instances",
         description=(
-            "读取 DGGT 的 bbox 实例清单。编辑已有对象前先确认 instance_id，"
+            "读取 重建引擎 的 bbox 实例清单。编辑已有对象前先确认 instance_id，"
             "以及 frames 中各已标注帧的 frame_index 和 bbox。"
             "bbox 使用模型输入图坐标 [x1,y1,x2,y2]，不需要 mask_path 或 ply_path。"
         ),

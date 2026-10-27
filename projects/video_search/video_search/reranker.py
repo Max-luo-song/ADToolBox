@@ -15,8 +15,8 @@ from typing import Any
 
 import requests
 
-from .vendor.sentrysearch.chunker import preprocess_chunk
-from .vendor.sentrysearch.trimmer import trim_clip
+from .vendor.vecsearch.chunker import preprocess_chunk
+from .vendor.vecsearch.trimmer import trim_clip
 
 from .config import SearchConfig
 
@@ -49,7 +49,7 @@ def _settings() -> tuple[str, str, str, str, str, str]:
         values["OSS_ACCESS_KEY_SECRET"],
         bucket,
         endpoint,
-        (os.environ.get("OSS_PREFIX", "").strip() or config.oss_prefix).strip("/") or "toolbox-rerank",
+        (os.environ.get("OSS_PREFIX", "").strip() or config.oss_prefix).strip("/") or "adtoolbox-rerank",
         os.environ.get("OSS_SECURITY_TOKEN", "").strip(),
     )
 
@@ -120,7 +120,7 @@ def rerank_hits(requirement: str, hits: list[dict[str, Any]], *, run_dir: Path) 
     uploaded: list[str] = []
     details: dict[str, Any] = {"model": "qwen3-vl-rerank", "candidate_count": len(candidates), "candidates": []}
     try:
-        with tempfile.TemporaryDirectory(prefix="sentry-rerank-") as temp_dir:
+        with tempfile.TemporaryDirectory(prefix="vecsearch-rerank-") as temp_dir:
             documents = []
             for index, hit in enumerate(candidates):
                 clip = Path(temp_dir) / f"candidate_{index:02d}.mp4"

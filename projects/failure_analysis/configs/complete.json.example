@@ -1,6 +1,6 @@
 {
-  "worldengine_root": "/path/to/WorldEngine",
-  "result_root": "/path/to/WorldEngine/experiments/closed_loop_exps/<your_experiment>/navtest_failures_R_complete",
+  "simulation_root": "/path/to/simulation",
+  "result_root": "/path/to/simulation/experiments/closed_loop_exps/<your_experiment>/navtest_failures_R_complete",
   "numeric_cache_dir": "runs/<your_run>/scenes",
   "workers": 2,
   "max_turns": 12,

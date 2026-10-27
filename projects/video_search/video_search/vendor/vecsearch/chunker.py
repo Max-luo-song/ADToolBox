@@ -178,7 +178,7 @@ def chunk_video(
     ffmpeg_exe = _get_ffmpeg_executable()
     duration = _get_video_duration(video_path)
     spans = expected_chunk_spans(duration, chunk_duration, overlap)
-    tmp_dir = tempfile.mkdtemp(prefix="sentrysearch_")
+    tmp_dir = tempfile.mkdtemp(prefix="vecsearch_")
     chunks = []
 
     for idx, (start, end) in enumerate(spans):
@@ -258,7 +258,7 @@ def is_still_frame_chunk(
         f2 = 2 * total_frames // 3
 
         # Extract 3 frames as JPEG
-        tmp_dir = tempfile.mkdtemp(prefix="sentrysearch_still_")
+        tmp_dir = tempfile.mkdtemp(prefix="vecsearch_still_")
         out_pattern = os.path.join(tmp_dir, "frame_%03d.jpg")
 
         subprocess.run(

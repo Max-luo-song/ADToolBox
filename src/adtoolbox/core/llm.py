@@ -13,12 +13,12 @@ from .schema import validate
 
 def ask_json(system, payload, schema, config, images=()):
     settings = config.get("llm", {})
-    key = os.environ.get(settings.get("api_key_env", "TOOLBOX_API_KEY"))
-    base = settings.get("base_url") or os.environ.get("TOOLBOX_BASE_URL")
-    model = settings.get("model") or os.environ.get("TOOLBOX_MODEL")
+    key = os.environ.get(settings.get("api_key_env", "ADTOOLBOX_API_KEY"))
+    base = settings.get("base_url") or os.environ.get("ADTOOLBOX_BASE_URL")
+    model = settings.get("model") or os.environ.get("ADTOOLBOX_MODEL")
     if not key or not base or not model:
         raise DependencyError(
-            "Configure TOOLBOX_API_KEY, TOOLBOX_BASE_URL and TOOLBOX_MODEL; see docs/configuration.md"
+            "Configure ADTOOLBOX_API_KEY, ADTOOLBOX_BASE_URL and ADTOOLBOX_MODEL; see docs/configuration.md"
         )
     text = json.dumps(payload, ensure_ascii=False, allow_nan=False)
     content = [{"type": "text", "text": text}]

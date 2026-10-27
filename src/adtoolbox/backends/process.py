@@ -22,7 +22,7 @@ def invoke(command, *, cwd=None, payload=None, timeout=3600, env=None, log_path=
             check=False,
         )
     except FileNotFoundError:
-        raise DependencyError("Backend executable not found; run tool-box doctor") from None
+        raise DependencyError("Backend executable not found; run adtoolbox doctor") from None
     except subprocess.TimeoutExpired:
         if log_path is not None:
             Path(log_path).write_text("Backend timed out\n", encoding="utf-8")
@@ -40,18 +40,12 @@ def configured(tool, data, config):
     settings = config.get("backends", {}).get(tool)
     if not settings or not settings.get("command"):
         return None
-    result = invoke(
-        settings["command"], cwd=settings.get("cwd"), payload=data, timeout=settings.get("timeout", 3600)
-    )
+    result = invoke(settings["command"], cwd=settings.get("cwd"), payload=data, timeout=settings.get("timeout", 3600))
     try:
         value = json.loads(result.stdout)
     except json.JSONDecodeError:
         raise BackendError("Backend stdout must contain exactly one JSON object") from None
-    if (
-        not isinstance(value, dict)
-        or value.get("status") != "success"
-        or not isinstance(value.get("result"), dict)
-    ):
+    if not isinstance(value, dict) or value.get("status") != "success" or not isinstance(value.get("result"), dict):
         raise BackendError("Backend must return status=success and an object result")
     return value["result"]
 

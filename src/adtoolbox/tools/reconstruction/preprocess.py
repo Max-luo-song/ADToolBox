@@ -1,4 +1,4 @@
-# Adapted from adagent contributors, 2026. Modified: explicit model path, frame bounds and metadata. Apache-2.0.
+# Adapted from the ADToolbox authors, 2026. Modified: explicit model path, frame bounds and metadata. Apache-2.0.
 """Convert one video into scene backend single-view images and sky masks."""
 
 import argparse
@@ -102,9 +102,7 @@ def main():
         with torch.no_grad():
             logits = segformer(pixel_values=inputs["pixel_values"].to(device)).logits
         labels = (
-            torch.nn.functional.interpolate(
-                logits, size=frame.shape[:2], mode="bilinear", align_corners=False
-            )
+            torch.nn.functional.interpolate(logits, size=frame.shape[:2], mode="bilinear", align_corners=False)
             .argmax(1)[0]
             .cpu()
             .numpy()

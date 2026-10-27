@@ -26,11 +26,6 @@ def file_path(value, label):
 
 
 def positive(value, label):
-    if (
-        isinstance(value, bool)
-        or not isinstance(value, (int, float))
-        or not math.isfinite(value)
-        or value <= 0
-    ):
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value <= 0:
         raise InputError(f"{label} must be a finite positive number")
     return value

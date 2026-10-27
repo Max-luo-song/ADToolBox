@@ -1,5 +1,5 @@
 [project]
-name = "toolbox-scene-editing"
+name = "adtoolbox-scene-editing"
 version = "0.1.0"
 description = "MCP server for 3DGS scene edit config generation"
 readme = "README.md"
@@ -12,8 +12,8 @@ dependencies = [
 ]
 
 [project.scripts]
-toolbox-scene-editing-mcp = "scene_editing.server:main_sync"
-toolbox-scene-editing-chat = "clients.terminal_chat:main"
+adtoolbox-scene-editing-mcp = "scene_editing.server:main_sync"
+adtoolbox-scene-editing-chat = "clients.terminal_chat:main"
 
 [build-system]
 requires = ["setuptools>=61"]

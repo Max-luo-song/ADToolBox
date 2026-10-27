@@ -13,18 +13,16 @@ from ...core.io import file_path, positive
 def launch(root, settings, data, config_path, checkpoint_path, result_dir):
     if not settings.get("simulation_python") or not settings.get("policy_python"):
         raise DependencyError("Configure simulation.simulation_python and simulation.policy_python")
-    sim_root = root / "projects/SimEngine"
-    policy_root = root / "projects/AlgEngine"
-    simulation = file_path(str(sim_root / "worldengine/runner/run_simulation.py"), "simulation entry")
+    sim_root = root / "engine"
+    policy_root = root / "policy"
+    simulation = file_path(str(sim_root / "simengine/runner/run_simulation.py"), "simulation entry")
     policy = file_path(str(policy_root / "closed_loop/sim_test.py"), "policy client entry")
-    for directory in ("plan_traj", "frames", "merged_ann_files", "WE_output"):
+    for directory in ("plan_traj", "frames", "merged_ann_files", "sim_output"):
         (result_dir / directory).mkdir(parents=True)
     scene_folder = data.get("scenario_data_folder_path") or str(
         root / "data/sim_engine/scenarios/original" / data["data_type"]
     )
-    asset_folder = data.get("asset_folder_path") or str(
-        root / "data/sim_engine/assets" / data["data_type"] / "assets"
-    )
+    asset_folder = data.get("asset_folder_path") or str(root / "data/sim_engine/assets" / data["data_type"] / "assets")
     if not Path(scene_folder).is_dir() or not Path(asset_folder).is_dir():
         raise DependencyError("Simulation requires existing scenario and asset directories")
     args = {
@@ -33,8 +31,8 @@ def launch(root, settings, data, config_path, checkpoint_path, result_dir):
         "data_file_folder_path": str(Path(scene_folder).resolve()),
         "asset_folder_path": str(Path(asset_folder).resolve()),
         "data_pkl_file_name": data.get("scenario_pkl_file_name", "all_scenarios.pkl"),
-        "output_dir": str(result_dir / "WE_output"),
-        "job_name": "toolbox",
+        "output_dir": str(result_dir / "sim_output"),
+        "job_name": "adtoolbox",
         "use_planner_actions": "true",
         "ego_controller": "log_play_controller",
         "ego_policy": "env_input_policy",
@@ -55,26 +53,24 @@ def launch(root, settings, data, config_path, checkpoint_path, result_dir):
     for key in ("num_scenarios", "max_frame_per_scene"):
         if key in data:
             args[key] = str(data[key])
-    sim_command = [str(settings["simulation_python"]), str(simulation)] + [
-        f"{k}={v}" for k, v in args.items()
-    ]
+    sim_command = [str(settings["simulation_python"]), str(simulation)] + [f"{k}={v}" for k, v in args.items()]
     policy_command = [
         str(settings["policy_python"]),
         str(policy),
         str(config_path),
         str(checkpoint_path),
         "--log-dir",
-        str(result_dir / "WE_output"),
+        str(result_dir / "sim_output"),
         "--cfg-options",
         f"sim.monitored_folder={result_dir / 'frames'}",
         f"sim.plan_save_path={result_dir / 'plan_traj'}",
         f"sim.merged_ann_save_dir={result_dir / 'merged_ann_files'}",
         "sim.clean_temp_files=True",
         "sim.clean_record_data=False",
-        f"data_root={result_dir / 'WE_output/openscene_format'}/",
+        f"data_root={result_dir / 'sim_output/openscene_format'}/",
     ]
     env = os.environ.copy()
-    env["WORLDENGINE_ROOT"] = str(root)
+    env["SIMREPO_ROOT"] = str(root)
     env["PYTHONPATH"] = os.pathsep.join([str(sim_root), str(policy_root), env.get("PYTHONPATH") or str(root)])
     deadline = time.monotonic() + positive(settings.get("timeout", 86400), "simulation.timeout")
     processes = []

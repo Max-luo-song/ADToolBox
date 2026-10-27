@@ -1,7 +1,7 @@
-"""Service layer: invoke worldengine_failure_analysis (wfa) scene analysis.
+"""Service layer: failure evidence analysis for a single scene token.
 
-Wraps wfa's run.py CLI for a single scene token and returns the parsed
-VLM forensic result. VLM credentials live in wfa/.secrets/vlm.json (0600),
+Wraps the run.py CLI for a single scene token and returns the parsed
+VLM forensic result. VLM credentials live in .secrets/vlm.json (0600),
 which is intentionally NOT vendored into the open-source repo.
 """
 
@@ -16,14 +16,14 @@ from pathlib import Path
 from typing import Any
 
 
-WFA_ROOT = Path(__file__).resolve().parent
-DEFAULT_CONFIG = WFA_ROOT / "configs" / "complete.json"
-DEFAULT_CONFIG_EXAMPLE = WFA_ROOT / "configs" / "complete.json.example"
-DEFAULT_RUN_NAME = "adagent_failure_analysis"
+ANALYSIS_ROOT = Path(__file__).resolve().parent
+DEFAULT_CONFIG = ANALYSIS_ROOT / "configs" / "complete.json"
+DEFAULT_CONFIG_EXAMPLE = ANALYSIS_ROOT / "configs" / "complete.json.example"
+DEFAULT_RUN_NAME = "failure_evidence_analysis"
 
 
 @dataclass
-class WfaSceneResult:
+class SceneAnalysisResult:
     token: str
     status: str
     failure_reason: str
@@ -37,13 +37,13 @@ class WfaSceneResult:
     raw: dict
 
 
-class WfaError(RuntimeError):
-    """Raised when the wfa scene analysis fails."""
+class AnalysisError(RuntimeError):
+    """Raised when the scene analysis fails."""
 
 
 def _resolve_python() -> str:
-    """Pick a Python that can run wfa (needs numpy/opencv/Pillow)."""
-    env = os.environ.get("WFA_PYTHON")
+    """Pick a Python that can run the analysis (needs numpy/opencv/Pillow)."""
+    env = os.environ.get("FA_PYTHON")
     if env:
         return env
     return sys.executable
@@ -51,14 +51,14 @@ def _resolve_python() -> str:
 
 
 def _check_secret() -> Path:
-    secret = WFA_ROOT / ".secrets" / "vlm.json"
+    secret = ANALYSIS_ROOT / ".secrets" / "vlm.json"
     if not secret.is_file():
-        raise WfaError(
+        raise AnalysisError(
             f"VLM secret not found: {secret}. "
             "Create it with keys endpoint/model/api_key and chmod 0600. See README."
         )
     if secret.stat().st_mode & 0o077:
-        raise WfaError(f"VLM secret must have mode 0600: {secret}")
+        raise AnalysisError(f"VLM secret must have mode 0600: {secret}")
     return secret
 
 
@@ -69,22 +69,22 @@ def analyze_scene(
     run_name: str = DEFAULT_RUN_NAME,
     resume: bool = True,
     timeout: int = 1800,
-) -> WfaSceneResult:
-    """Run wfa forensic analysis for one scene token and return the parsed result."""
+) -> SceneAnalysisResult:
+    """Run forensic analysis for one scene token and return the parsed result."""
     if not token or not token.strip():
-        raise ValueError("failure_analyzer (wfa) requires a non-empty scene 'token'")
+        raise ValueError("failure_analyzer requires a non-empty scene 'token'")
     _check_secret()
 
     config = Path(config_path).expanduser().resolve() if config_path else DEFAULT_CONFIG
     if not config.is_file():
         if config == DEFAULT_CONFIG and DEFAULT_CONFIG_EXAMPLE.is_file():
-            raise WfaError(
-                f"wfa config not found: {config}. "
+            raise AnalysisError(
+                f"analysis config not found: {config}. "
                 f"Copy {DEFAULT_CONFIG_EXAMPLE} to {config} and fill in your paths."
             )
-        raise WfaError(f"wfa config not found: {config}")
+        raise AnalysisError(f"analysis config not found: {config}")
 
-    run_py = WFA_ROOT / "run.py"
+    run_py = ANALYSIS_ROOT / "run.py"
     cmd = [
         _resolve_python(), str(run_py), "scene",
         "--token", token.strip(),
@@ -95,18 +95,18 @@ def analyze_scene(
         cmd.append("--resume")
 
     proc = subprocess.run(
-        cmd, cwd=str(WFA_ROOT), capture_output=True, text=True, timeout=timeout,
+        cmd, cwd=str(ANALYSIS_ROOT), capture_output=True, text=True, timeout=timeout,
     )
 
-    # wfa writes per-scene outputs under runs/<run_name>/scenes/<token>/
-    scene_dir = WFA_ROOT / "runs" / run_name / "scenes" / token.strip()
+    # the pipeline writes per-scene outputs under runs/<run_name>/scenes/<token>/
+    scene_dir = ANALYSIS_ROOT / "runs" / run_name / "scenes" / token.strip()
     result_path = scene_dir / "result.json"
     status_path = scene_dir / "status.json"
     report_path = scene_dir / "report.md"
 
-    # Resolve the real token dir (wfa may suffix-match the token)
+    # Resolve the real token dir (the pipeline may suffix-match the token)
     if not result_path.is_file():
-        scenes_root = WFA_ROOT / "runs" / run_name / "scenes"
+        scenes_root = ANALYSIS_ROOT / "runs" / run_name / "scenes"
         if scenes_root.is_dir():
             matches = [d for d in scenes_root.iterdir()
                        if d.is_dir() and (d.name == token.strip() or d.name.endswith("-" + token.strip()))]
@@ -118,8 +118,8 @@ def analyze_scene(
 
     if not result_path.is_file():
         tail = (proc.stderr or proc.stdout or "")[-2000:]
-        raise WfaError(
-            f"wfa scene analysis produced no result.json for token {token!r} "
+        raise AnalysisError(
+            f"scene analysis produced no result.json for token {token!r} "
             f"(exit={proc.returncode}). {tail}"
         )
 
@@ -131,12 +131,12 @@ def analyze_scene(
         except Exception:
             status = {}
     if status.get("state") == "failed":
-        raise WfaError(
-            f"wfa scene analysis failed for {token!r}: "
+        raise AnalysisError(
+            f"scene analysis failed for {token!r}: "
             f"{status.get('error_type')} {status.get('message')}"
         )
 
-    return WfaSceneResult(
+    return SceneAnalysisResult(
         token=result.get("token", token.strip()),
         status=result.get("status", status.get("state", "unknown")),
         failure_reason=result.get("failure_reason", ""),

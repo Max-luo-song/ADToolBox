@@ -2,7 +2,7 @@
   "llm": {
     "base_url": "https://your-model-endpoint.example/v1",
     "model": "your-vision-capable-model",
-    "api_key_env": "TOOLBOX_API_KEY",
+    "api_key_env": "ADTOOLBOX_API_KEY",
     "timeout": 120,
     "max_tokens": 2048
   },

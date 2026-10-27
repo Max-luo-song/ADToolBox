@@ -7,11 +7,7 @@ from ...core.io import file_path, positive, read_json
 
 
 def _box(state):
-    if (
-        not isinstance(state, dict)
-        or not isinstance(state.get("position"), list)
-        or len(state["position"]) < 2
-    ):
+    if not isinstance(state, dict) or not isinstance(state.get("position"), list) or len(state["position"]) < 2:
         raise InputError("Every box requires position [x,y], length and width")
     x, y = state["position"][:2]
     heading = state.get("heading", 0.0)
@@ -78,9 +74,7 @@ def filter_case(data):
         "collision_events": events,
         "frames_evaluated": len(frames),
         "evaluation_scope": "dynamic_2d_oriented_boxes",
-        "_warnings": [
-            "Box overlap is a screening signal, not collision responsibility or road-compliance scoring."
-        ],
+        "_warnings": ["Box overlap is a screening signal, not collision responsibility or road-compliance scoring."],
     }
     if events and data.get("output_library"):
         path = Path(data["output_library"]).expanduser().resolve()

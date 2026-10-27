@@ -12,11 +12,11 @@ def generate(data, config):
     if not data.get("output_path"):
         raise InputError("Natural-language editing requires output_path")
     settings = config.get("llm", {})
-    env = {"TOOLBOX_EDITING_ROOT": project_settings("scene_editing", config)["root"]}
+    env = {"ADTOOLBOX_EDITING_ROOT": project_settings("scene_editing", config)["root"]}
     for target, value in {
-        "OPENAI_API_KEY": os.environ.get(settings.get("api_key_env", "TOOLBOX_API_KEY")),
-        "OPENAI_BASE_URL": settings.get("base_url") or os.environ.get("TOOLBOX_BASE_URL"),
-        "OPENAI_MODEL": settings.get("model") or os.environ.get("TOOLBOX_MODEL"),
+        "OPENAI_API_KEY": os.environ.get(settings.get("api_key_env", "ADTOOLBOX_API_KEY")),
+        "OPENAI_BASE_URL": settings.get("base_url") or os.environ.get("ADTOOLBOX_BASE_URL"),
+        "OPENAI_MODEL": settings.get("model") or os.environ.get("ADTOOLBOX_MODEL"),
     }.items():
         if value:
             env[target] = str(value)

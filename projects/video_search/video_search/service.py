@@ -90,15 +90,15 @@ def _search_index(
     *,
     source_files: list[str] | None = None,
 ) -> list[dict[str, Any]]:
-    """Search the Qwen SentrySearch index, optionally restricted to source files."""
-    db_path = config.runtime_home / ".sentrysearch" / "db"
+    """Search the Qwen VectorSearch index, optionally restricted to source files."""
+    db_path = config.runtime_home / ".vecsearch" / "db"
     if not db_path.exists():
         return []
 
-    from .vendor.sentrysearch.embedder import get_embedder, reset_embedder
-    from .vendor.sentrysearch.store import SentryStore
+    from .vendor.vecsearch.embedder import get_embedder, reset_embedder
+    from .vendor.vecsearch.store import VectorStore
 
-    store = SentryStore(db_path=db_path, backend="qwen_api")
+    store = VectorStore(db_path=db_path, backend="qwen_api")
     total = store.collection.count()
     if total <= 0:
         return []
@@ -148,8 +148,8 @@ def _trim_hit(
     label: str = "",
     crf: int = 0,
 ) -> Path:
-    from .vendor.sentrysearch.chunker import _get_video_duration
-    from .vendor.sentrysearch.trimmer import trim_clip
+    from .vendor.vecsearch.chunker import _get_video_duration
+    from .vendor.vecsearch.trimmer import trim_clip
 
     duration = _get_video_duration(str(hit["source_file"]))
     clip_length = min(10.0, duration)
@@ -269,7 +269,7 @@ def index_local(
         "processed_files": processed,
         "newly_indexed_files": newly_indexed,
         "indexed_file_count": len(newly_indexed),
-        "db_path": str(config.runtime_home / ".sentrysearch" / "db"),
+        "db_path": str(config.runtime_home / ".vecsearch" / "db"),
         "seconds": round(total_seconds, 3),
     }
 

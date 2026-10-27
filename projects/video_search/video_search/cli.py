@@ -1,4 +1,4 @@
-"""Command-line entry point for Sentry Video Search."""
+"""Command-line entry point for Driving Video Search."""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Sentry Video Search")
+    parser = argparse.ArgumentParser(description="Driving Video Search")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     index_parser = subparsers.add_parser("index", help="Add local video files to the local index.")

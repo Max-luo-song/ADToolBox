@@ -8,9 +8,7 @@ from .registry import run_tool
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        prog="tool-box", description="Independent tools for driving scenario engineering"
-    )
+    parser = argparse.ArgumentParser(prog="adtoolbox", description="Independent tools for driving scenario engineering")
     parser.add_argument("--version", action="version", version="%(prog)s 0.1.0")
     commands = parser.add_subparsers(dest="command", required=True)
     listing = commands.add_parser("list", help="List all tools without importing GPU dependencies")
@@ -43,11 +41,7 @@ def main():
             value = run_tool(args.tool, data, config=read_json(args.config) if args.config else {})
             if args.output:
                 write_json(args.output, value)
-        print(
-            value
-            if isinstance(value, str)
-            else json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False)
-        )
+        print(value if isinstance(value, str) else json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False))
         if isinstance(value, dict) and value.get("status") == "error":
             raise SystemExit(1)
     except (ValueError, OSError) as exc:

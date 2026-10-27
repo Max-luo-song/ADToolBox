@@ -1,12 +1,12 @@
 # Semantic video search project / 视频语义检索项目
 
-This is the migrated working video pipeline, including preprocessing, video chunking, multimodal embedding calls, persistent vector indexing, query recall, video reranking, clip export and explicit internet search. The `vendor/sentrysearch` runtime is retained with its existing internal naming; the public component is named by function.
+This is the migrated working video pipeline, including preprocessing, video chunking, multimodal embedding calls, persistent vector indexing, query recall, video reranking, clip export and explicit internet search. The `vendor/vecsearch` runtime is retained with its existing internal naming; the public component is named by function.
 
 ```bash
 python -m venv environments/video_search
 environments/video_search/bin/python -m pip install -e projects/video_search
 export DASHSCOPE_API_KEY=your-key
-export TOOLBOX_VIDEO_SEARCH_HOME=/absolute/path/to/video-library
+export ADTOOLBOX_VIDEO_SEARCH_HOME=/absolute/path/to/video-library
 environments/video_search/bin/video-search index /path/to/videos
 environments/video_search/bin/video-search search-local "a car cuts in on a highway"
 ```

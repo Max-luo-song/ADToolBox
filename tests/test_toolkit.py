@@ -11,10 +11,10 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from driving_toolbox import list_tools, run_tool
-from driving_toolbox.backends.coordinates import local_to_scene_world
-from driving_toolbox.tools.edit_config_generator.compiler import to_rigid
-from driving_toolbox.tools.failure_case_filter.evaluator import overlaps
+from adtoolbox import list_tools, run_tool
+from adtoolbox.backends.coordinates import local_to_scene_world
+from adtoolbox.tools.edit_config_generator.compiler import to_rigid
+from adtoolbox.tools.failure_case_filter.evaluator import overlaps
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -28,7 +28,7 @@ class ToolkitTests(unittest.TestCase):
         self.assertEqual(len({tool["name"] for tool in tools}), 14)
         for tool in tools:
             jsonschema.Draft202012Validator.check_schema(tool["input_schema"])
-            self.assertTrue(callable(importlib.import_module(f"driving_toolbox.tools.{tool['name']}").run))
+            self.assertTrue(callable(importlib.import_module(f"adtoolbox.tools.{tool['name']}").run))
             result = run_tool(tool["name"], [])
             self.assertEqual(result["status"], "error")
             self.assertEqual(result["error"]["code"], "invalid_input")
@@ -41,7 +41,7 @@ class ToolkitTests(unittest.TestCase):
             jsonschema.validate(data, tool["input_schema"])
 
     def test_import_and_listing_do_not_load_gpu_packages(self):
-        script = "import sys; from driving_toolbox import list_tools; assert len(list_tools()) == 14; assert not {'torch','cv2','ultralytics'} & set(sys.modules)"
+        script = "import sys; from adtoolbox import list_tools; assert len(list_tools()) == 14; assert not {'torch','cv2','ultralytics'} & set(sys.modules)"
         subprocess.run([sys.executable, "-c", script], check=True)
 
     def test_compile_real_edit_artifact(self):
@@ -93,9 +93,7 @@ class ToolkitTests(unittest.TestCase):
 
     def test_metric_camera_offsets_convert_per_frame_and_lock_vertical_axis(self):
         pose = [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
-        for actual, expected in zip(
-            local_to_scene_world([2, 3, 0], pose, 0.1), [-0.3, 0.0, 0.2], strict=True
-        ):
+        for actual, expected in zip(local_to_scene_world([2, 3, 0], pose, 0.1), [-0.3, 0.0, 0.2], strict=True):
             self.assertAlmostEqual(actual, expected)
 
     def test_oriented_boxes_avoid_axis_aligned_false_positive(self):
@@ -118,9 +116,7 @@ class ToolkitTests(unittest.TestCase):
             self.assertEqual(len(library.read_text().splitlines()), 1)
             source = Path(directory) / "bad.json"
             source.write_text(json.dumps({"frames": []}))
-            self.assertEqual(
-                run_tool("failure_case_filter", {"scenario_path": str(source)})["status"], "error"
-            )
+            self.assertEqual(run_tool("failure_case_filter", {"scenario_path": str(source)})["status"], "error")
 
     def test_caption_search_ranks_and_exports_actual_file(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -185,10 +181,8 @@ class ToolkitTests(unittest.TestCase):
                 }
             ]
         }
-        with patch.dict(os.environ, {"TOOLBOX_API_KEY": "test-secret"}, clear=True):
-            with patch(
-                "driving_toolbox.core.llm.urlopen", return_value=io.BytesIO(json.dumps(body).encode())
-            ) as request:
+        with patch.dict(os.environ, {"ADTOOLBOX_API_KEY": "test-secret"}, clear=True):
+            with patch("adtoolbox.core.llm.urlopen", return_value=io.BytesIO(json.dumps(body).encode())) as request:
                 result = run_tool(
                     "scene_requirement_generator",
                     {"failure_analysis": {"reason": "cut in"}},
@@ -199,7 +193,7 @@ class ToolkitTests(unittest.TestCase):
                 self.assertEqual(sent.get_header("Authorization"), "Bearer test-secret")
                 self.assertNotIn("test-secret", json.dumps(result))
             with patch(
-                "driving_toolbox.core.llm.urlopen",
+                "adtoolbox.core.llm.urlopen",
                 return_value=io.BytesIO(b'{"choices":[{"message":{"content":"{}"}}]}'),
             ):
                 result = run_tool(
@@ -232,7 +226,7 @@ class ToolkitTests(unittest.TestCase):
 
     def test_cli_errors_and_real_example(self):
         result = subprocess.run(
-            [sys.executable, "-m", "driving_toolbox", "run", "recovery_advisor", "--input", "-"],
+            [sys.executable, "-m", "adtoolbox", "run", "recovery_advisor", "--input", "-"],
             input='{"evaluation":{"passed":true}}',
             capture_output=True,
             text=True,
@@ -240,7 +234,7 @@ class ToolkitTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0)
         self.assertEqual(json.loads(result.stdout)["status"], "success")
         result = subprocess.run(
-            [sys.executable, "-m", "driving_toolbox", "run", "recovery_advisor", "--input", "-"],
+            [sys.executable, "-m", "adtoolbox", "run", "recovery_advisor", "--input", "-"],
             input="{}",
             capture_output=True,
             text=True,
@@ -254,7 +248,7 @@ class ToolkitTests(unittest.TestCase):
 
             params = StdioServerParameters(
                 command=sys.executable,
-                args=["-m", "driving_toolbox.mcp_server"],
+                args=["-m", "adtoolbox.mcp_server"],
                 env={"PYTHONPATH": str(ROOT / "src")},
             )
             async with stdio_client(params) as (read, write):

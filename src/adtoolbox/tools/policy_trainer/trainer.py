@@ -9,10 +9,8 @@ from ...core.io import file_path
 
 def train(data, config):
     root, settings = root_settings(config, "training", ["root", "python"])
-    script = file_path(str(root / "projects/AlgEngine/scripts/train.py"), "training script")
-    paths = {
-        key: file_path(data[key], key) for key in ("config_path", "base_checkpoint", "ann_file", "token_file")
-    }
+    script = file_path(str(root / "policy/scripts/train.py"), "training script")
+    paths = {key: file_path(data[key], key) for key in ("config_path", "base_checkpoint", "ann_file", "token_file")}
     work = Path(data["work_dir"]).expanduser().resolve()
     if work.exists() and any(work.iterdir()):
         raise InputError("work_dir must be empty to avoid mixing checkpoints from earlier training")
@@ -34,11 +32,9 @@ def train(data, config):
         "data.train.finetune_yaml=" + json.dumps([str(paths["token_file"])]),
     ]
     env = os.environ.copy()
-    env["WORLDENGINE_ROOT"] = str(root)
-    env["PYTHONPATH"] = str(root / "projects/AlgEngine") + os.pathsep + env.get("PYTHONPATH", str(root))
-    process = invoke(
-        command, cwd=root, env=env, timeout=settings.get("timeout", 86400), log_path=work / "training.log"
-    )
+    env["SIMREPO_ROOT"] = str(root)
+    env["PYTHONPATH"] = str(root / "policy") + os.pathsep + env.get("PYTHONPATH", str(root))
+    process = invoke(command, cwd=root, env=env, timeout=settings.get("timeout", 86400), log_path=work / "training.log")
     (work / "training.log").write_text(process.stdout + process.stderr, encoding="utf-8")
     checkpoints = sorted(work.glob("epoch_*.pth"), key=lambda p: p.stat().st_mtime_ns)
     if not checkpoints:

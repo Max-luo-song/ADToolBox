@@ -8,7 +8,7 @@ from pathlib import Path
 import chromadb
 
 
-DEFAULT_DB_PATH = Path.home() / ".sentrysearch" / "db"
+DEFAULT_DB_PATH = Path.home() / ".vecsearch" / "db"
 
 
 class BackendMismatchError(RuntimeError):
@@ -84,7 +84,7 @@ def _make_chunk_id(source_file: str, start_time: float) -> str:
     return hashlib.sha256(raw.encode()).hexdigest()[:16]
 
 
-class SentryStore:
+class VectorStore:
     """Persistent vector store backed by ChromaDB."""
 
     def __init__(self, db_path: str | Path | None = None, backend: str = "gemini",

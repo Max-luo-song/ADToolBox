@@ -15,9 +15,7 @@ def validate(value, schema, path="input"):
         "boolean": bool,
     }
     kind = schema.get("type")
-    if kind and (
-        not isinstance(value, types[kind]) or (kind in {"integer", "number"} and isinstance(value, bool))
-    ):
+    if kind and (not isinstance(value, types[kind]) or (kind in {"integer", "number"} and isinstance(value, bool))):
         raise InputError(f"{path} must be {kind}")
     if isinstance(value, float) and not math.isfinite(value):
         raise InputError(f"{path} must be finite")
