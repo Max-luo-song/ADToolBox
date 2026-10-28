@@ -24,7 +24,7 @@ ADToolbox is developed by a joint team from **East China Normal University (ECNU
 
 <p align="center">
   Luosong Guo · Haochun Gao · Xiang Yang · Dinghao LIn · Yi Luo<br />
-  Zhenyu Hou · Ao Gao · Chaoyang Li · Jiangming Shi†</sup> · Jingyu Gong<sup>†</sup> · Yuan Xie<sup>†</sup>
+  Zhenyu Hou · Ao Gao · Chaoyang Li · Jiangming Shi† · Zhizhong Zhang · Jingyu Gong<sup> · Yuan Xie<sup>†</sup>
 </p>
 
 <p align="center"><sup>†</sup> Project leaders.</p>
