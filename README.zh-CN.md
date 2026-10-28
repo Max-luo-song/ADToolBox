@@ -12,6 +12,25 @@
 
 </div>
 
+### 团队介绍
+
+ADToolbox 由来自**华东师范大学（ECNU）**与**上海创智学院（SII）**的联合团队共同建设。
+
+<p align="center">
+  <img src="assets/affiliations/east-china-normal-university.png" alt="East China Normal University" width="43%" />
+  &nbsp;&nbsp;&nbsp;
+  <img src="assets/affiliations/shanghai-innovation-institute.png" alt="Shanghai Innovation Institute" width="45%" />
+</p>
+
+<p align="center">
+  Luosong Guo · Haochun Gao · Xiang Yang · Dinghao LIn · Yi Luo<br />
+  Zhenyu Hou · Ao Gao · Chaoyang Li · Jingyu Gong<sup>†</sup> · Yuan Xie<sup>†</sup>
+</p>
+
+<p align="center"><sup>†</sup> 项目负责人。</p>
+
+团队围绕自动驾驶场景工程，开展视频检索、动态三维重建、场景编辑与策略评测等工具研发，致力于让这些能力能够独立使用，并方便地接入研究工作流。
+
 ADToolbox 将失败证据分析、场景设计、视频检索、动态三维重建、编辑与策略评测统一为可独立调用的工具。你可以从 Python 调用一个工具，通过终端运行，或接入 MCP 客户端。每次调用都明确接收输入、返回可检查的结果。
 
 工具集包含 **14 个有真实实现支撑的独立工具**，重型计算引擎随仓库提供：带编辑扩展的动态高斯重建引擎、闭环仿真引擎和策略训练栈都在 [`projects/`](projects/README.md) 下。流程编排与下一步决策由调用方自己的应用负责——ADToolbox 刻意不包含 Agent 框架。
@@ -97,28 +116,6 @@ adtoolbox-mcp --config configs/runtime.local.json
 这是一个 **Alpha 工具集版本**。测试覆盖可移植实现、模型请求传输与子进程/MCP 协议。内嵌引擎已完成源码完整性与接线验证；干净环境的 GPU 重建效果、编辑保真度、闭环指标和训练收益取决于你的硬件、权重与数据，详见[验证状态](docs/validation.md)。
 
 车辆框重叠筛选不等同于碰撞责任或道路合规评分；抽帧视觉检查不证明物理正确；失败案例也不自动构成有效训练标注。
-
-### 团队介绍
-
-ADToolbox 由来自华东师范大学与上海创智学院的团队共同建设。
-
-<table align="center">
-  <tr>
-    <td align="center" width="50%">
-      <img src="assets/affiliations/east-china-normal-university.png" width="320" alt="East China Normal University" />
-      <br />华东师范大学
-    </td>
-    <td align="center" width="50%">
-      <img src="assets/affiliations/shanghai-innovation-institute.png" width="320" alt="Shanghai Innovation Institute" />
-      <br />上海创智学院
-    </td>
-  </tr>
-</table>
-
-<p align="center">
-  Luosong Guo · Haochun Gao · Xiang Yang · Dinghao LIn · Yi Luo<br />
-  Zhenyu Hou · Ao Gao · Chaoyang Li · Jingyu Gong <sup>Project Leader</sup> · Yuan Xie <sup>Project Leader</sup>
-</p>
 
 ### 参与贡献
 

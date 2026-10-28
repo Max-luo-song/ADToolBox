@@ -12,6 +12,25 @@
 
 </div>
 
+### Team
+
+ADToolbox is developed by a joint team from **East China Normal University (ECNU)** and the **Shanghai Innovation Institute (SII)**.
+
+<p align="center">
+  <img src="assets/affiliations/east-china-normal-university.png" alt="East China Normal University" width="43%" />
+  &nbsp;&nbsp;&nbsp;
+  <img src="assets/affiliations/shanghai-innovation-institute.png" alt="Shanghai Innovation Institute" width="45%" />
+</p>
+
+<p align="center">
+  Luosong Guo · Haochun Gao · Xiang Yang · Dinghao LIn · Yi Luo<br />
+  Zhenyu Hou · Ao Gao · Chaoyang Li · Jingyu Gong<sup>†</sup> · Yuan Xie<sup>†</sup>
+</p>
+
+<p align="center"><sup>†</sup> Project leaders.</p>
+
+Our work focuses on reusable tools for driving video retrieval, dynamic 3D reconstruction, scene editing, and policy evaluation, making these capabilities easier to use independently and integrate into research workflows.
+
 ADToolbox brings failure evidence, scenario design, video retrieval, dynamic reconstruction, editing and policy evaluation behind a consistent interface. Use one tool from Python, call it from a terminal, or expose it to an MCP client. Each call has explicit inputs and inspectable outputs.
 
 The library includes **14 independent tools with real implementations**, and the heavy compute engines ship with the repository: a dynamic Gaussian reconstruction engine with editing extensions, a closed-loop simulation engine, and a policy training stack live under [`projects/`](projects/README.md). Orchestration and next-step selection belong to your own application — ADToolbox deliberately does not include an agent framework.
@@ -97,28 +116,6 @@ See [MCP setup](docs/mcp.md), [coordinate and data contracts](docs/contracts.md)
 This is an **alpha toolkit release**. Portable implementations, model transport and process/protocol contracts are covered by tests. The bundled engines are verified for source completeness and integration wiring; clean GPU reconstruction, edited-scene fidelity, closed-loop metrics and policy training outcomes depend on your hardware, checkpoints and data. [Validation status](docs/validation.md) records the distinction.
 
 Box-overlap screening does not establish collision responsibility or road compliance. Sampled-frame review does not certify physics. Fine-tuning requires valid labels; a mined failure is not automatically a training example.
-
-### Team
-
-ADToolbox is developed by a team from East China Normal University and Shanghai Innovation Institute.
-
-<table align="center">
-  <tr>
-    <td align="center" width="50%">
-      <img src="assets/affiliations/east-china-normal-university.png" width="320" alt="East China Normal University" />
-      <br />East China Normal University
-    </td>
-    <td align="center" width="50%">
-      <img src="assets/affiliations/shanghai-innovation-institute.png" width="320" alt="Shanghai Innovation Institute" />
-      <br />Shanghai Innovation Institute
-    </td>
-  </tr>
-</table>
-
-<p align="center">
-  Luosong Guo · Haochun Gao · Xiang Yang · Dinghao LIn · Yi Luo<br />
-  Zhenyu Hou · Ao Gao · Chaoyang Li · Jingyu Gong <sup>Project Leader</sup> · Yuan Xie <sup>Project Leader</sup>
-</p>
 
 ### Contribute
 

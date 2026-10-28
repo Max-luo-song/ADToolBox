@@ -12,8 +12,10 @@ Affiliations / 工作单位：华东师范大学（East China Normal University�
 6. Zhenyu Hou
 7. Ao Gao
 8. Chaoyang Li
-9. Jingyu Gong — **Project Leader**
-10. Yuan Xie — **Project Leader**
+9. Jingyu Gong<sup>†</sup>
+10. Yuan Xie<sup>†</sup>
+
+<sup>†</sup> Project leaders / 项目负责人。
 
 ## Additional credits / 其他贡献记录
 
