@@ -98,6 +98,28 @@ adtoolbox-mcp --config configs/runtime.local.json
 
 车辆框重叠筛选不等同于碰撞责任或道路合规评分；抽帧视觉检查不证明物理正确；失败案例也不自动构成有效训练标注。
 
+### 团队介绍
+
+ADToolbox 由来自华东师范大学与上海创智学院的团队共同建设。
+
+<table align="center">
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/affiliations/east-china-normal-university.png" width="320" alt="East China Normal University" />
+      <br />华东师范大学
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/affiliations/shanghai-innovation-institute.png" width="320" alt="Shanghai Innovation Institute" />
+      <br />上海创智学院
+    </td>
+  </tr>
+</table>
+
+<p align="center">
+  Luosong Guo · Haochun Gao · Xiang Yang · Dinghao LIn · Yi Luo<br />
+  Zhenyu Hou · Ao Gao · Chaoyang Li · Jingyu Gong <sup>Project Leader</sup> · Yuan Xie <sup>Project Leader</sup>
+</p>
+
 ### 参与贡献
 
 参见[贡献指南](CONTRIBUTING.md)和[安全说明](SECURITY.md)。后续重点是可复现的引擎配置、经过测量的场景编辑案例和更多可移植格式适配。

@@ -98,6 +98,28 @@ This is an **alpha toolkit release**. Portable implementations, model transport 
 
 Box-overlap screening does not establish collision responsibility or road compliance. Sampled-frame review does not certify physics. Fine-tuning requires valid labels; a mined failure is not automatically a training example.
 
+### Team
+
+ADToolbox is developed by a team from East China Normal University and Shanghai Innovation Institute.
+
+<table align="center">
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/affiliations/east-china-normal-university.png" width="320" alt="East China Normal University" />
+      <br />East China Normal University
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/affiliations/shanghai-innovation-institute.png" width="320" alt="Shanghai Innovation Institute" />
+      <br />Shanghai Innovation Institute
+    </td>
+  </tr>
+</table>
+
+<p align="center">
+  Luosong Guo · Haochun Gao · Xiang Yang · Dinghao LIn · Yi Luo<br />
+  Zhenyu Hou · Ao Gao · Chaoyang Li · Jingyu Gong <sup>Project Leader</sup> · Yuan Xie <sup>Project Leader</sup>
+</p>
+
 ### Contribute
 
 See [contributing](CONTRIBUTING.md) and [security](SECURITY.md). Useful next steps are reproducible engine profiles, measured editing examples and additional portable scene adapters.
